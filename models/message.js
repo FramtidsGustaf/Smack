@@ -10,9 +10,9 @@ const MessageSchema = new Schema({
 		type: Date,
 		default: Date.now(),
 	},
-  author: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  }
+	author: {
+		type: Schema.Types.ObjectId,
+		ref: 'User',
+		required: true,
+	},
 });

@@ -7,6 +7,11 @@ const UserSchema = new Schema({
 		required: true,
 		maxlength: 100,
 	},
+	password: {
+		type: String,
+		required: true,
+		maxlength: 100,
+	},
 	first_name: {
 		type: String,
 		required: true,
