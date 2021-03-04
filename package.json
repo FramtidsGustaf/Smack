@@ -1,0 +1,21 @@
+{
+  "name": "smack",
+  "version": "1.0.0",
+  "description": "Slack clone",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "chat"
+  ],
+  "author": "Robin Hedlund, Sebastian Carlson, Erik Somnäs, Gustaf Johnsson",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "mongoose": "^5.11.18",
+    "sass": "^1.32.8"
+  }
+}
