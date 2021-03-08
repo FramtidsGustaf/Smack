@@ -17,7 +17,8 @@
 					<label for="first_name">First Name</label>
 				</td>
 				<td>
-					<input name="first_name" autocomplete="off" required />
+					<input name="first_name" autocomplete="off" required
+						value="<%= typeof first_name != 'undefined' ? first_name : '' %>" />
 				</td>
 			</tr>
 			<tr>
@@ -25,7 +26,8 @@
 					<label for="last_name">Last Name</label>
 				</td>
 				<td>
-					<input name="last_name" autocomplete="off" required />
+					<input name="last_name" autocomplete="off" required
+						value="<%= typeof last_name != 'undefined' ? last_name : '' %>" />
 				</td>
 			</tr>
 			<tr>
@@ -33,7 +35,8 @@
 					<label for="user_name">Username</label>
 				</td>
 				<td>
-					<input name="user_name" autocomplete="off" required />
+					<input name="user_name" autocomplete="off" required
+						value="<%= typeof user_name != 'undefined' ? user_name : '' %>" />
 				</td>
 			</tr>
 			<tr>
@@ -41,7 +44,8 @@
 					<label for="email">Email</label>
 				</td>
 				<td>
-					<input type="email" name="email" autocomplete="off" required />
+					<input type="email" name="email" autocomplete="off" required
+						value="<%= typeof email != 'undefined' ? email : '' %>" />
 				</td>
 			</tr>
 			<tr>
