@@ -9,12 +9,10 @@ mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected...'))
   .catch(error => console.log(error));
 
-app.use(express.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs');
 
-
-
+app.use(express.urlencoded({ extended: true }));
 app.use('/user', require('./routes/UserRoute'))
 app.use('/room', require('./routes/RoomRoute'))
 
