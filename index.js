@@ -1,17 +1,19 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const db = require('./config/keys').mongoURI
+
 const app = express();
 const port = 3000;
 
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
-const mongoose = require('mongoose');
-const connection = mongoose.connect('mongodb://localhost:27017/wacksolutions');
-const db = mongoose.connection;
+mongoose.connect(db, { useNewUrlParser: true })
+  .then(() => console.log('MongoDB connected...'))
+  .catch(err => console.log(err));
 
 app.get('/', (req, res) => {
   res.render('index.ejs');
 });
-
 app.get('/userform', (req, res) => {
   res.render('userform.ejs');
 });
@@ -25,7 +27,7 @@ app.post('/signup', (req, res) => {
   const user = new UserModel(req.body);
 
   user.save((error, result) => {
-    if(error) {
+    if (error) {
       return handleError(error);
     }
     res.redirect('/');
@@ -37,7 +39,7 @@ app.post('/createroom', (req, res) => {
   const room = new RoomModel(req.body);
 
   room.save((error, result) => {
-    if(error) {
+    if (error) {
       return handleError(error);
     }
     res.redirect('/');
@@ -45,8 +47,5 @@ app.post('/createroom', (req, res) => {
 });
 
 
-db.on('error', (error) => {
-	console.log(error);
-});
 
 app.listen(port);
