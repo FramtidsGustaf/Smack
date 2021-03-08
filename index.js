@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs');
 
-mongoose.connect(db, { useNewUrlParser: true })
+mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected...'))
   .catch(err => console.log(err));
 
@@ -21,4 +21,4 @@ app.get('/', (req, res) => {
 });
 
 
-app.listen(port);
+app.listen(port, () => { `Server running on ${port}` });
