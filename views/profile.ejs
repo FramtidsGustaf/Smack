@@ -1,0 +1,67 @@
+<form method="post" action="">
+	<table>
+		<tr>
+			<td>
+				<label for="first_name">First Name</label>
+			</td>
+			<td>
+				<input
+					name="first_name"
+					autocomplete="off"
+					required
+					id="first_name"
+					value="<%= typeof user.first_name != 'undefined' ? user.first_name : '' %>"
+				/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="last_name">Last Name</label>
+			</td>
+			<td>
+				<input
+					name="last_name"
+					autocomplete="off"
+					required
+					id="last_name"
+					value="<%= typeof user.last_name != 'undefined' ? user.last_name : '' %>"
+				/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="username">Username</label>
+			</td>
+			<td>
+				<input
+					name="username"
+					autocomplete="off"
+					required
+					id="username"
+					value="<%= typeof user.username != 'undefined' ? user.username : '' %>"
+				/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="email">Email</label>
+			</td>
+			<td>
+				<input
+					type="email"
+					name="email"
+					autocomplete="off"
+					required
+					id="email"
+					value="<%= typeof user.email != 'undefined' ? user.email : '' %>"
+				/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="submit" value="Save changes" />
+			</td>
+		</tr>
+	</table>
+</form>
+<!--Add picture will be available in next update will cost Bitcoins-->

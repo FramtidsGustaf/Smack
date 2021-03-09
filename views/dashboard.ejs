@@ -1,1 +1,8 @@
 <h1><%= user.first_name%></h1>
+<a href="user/signout">Signout</a>
+<a href="/room/roomform">Create Room</a>
+
+<form method="POST" action="/dashboard/profile">
+  <input name="_id" hidden value="<%= user._id %>">
+  <input type="submit" value="Profile">
+</form>

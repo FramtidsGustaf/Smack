@@ -12,6 +12,12 @@ router.get('/signin', (req, res) => {
 	res.render('signin');
 });
 
+router.get('/signout', (req, res) => {
+	req.logout();
+	req.flash('success_msg', 'Signed Out');
+	res.redirect('/');
+})
+
 router.post('/signup', (req, res) => {
 	const { first_name, last_name, username, email, password } = req.body;
 	let errors = [];
@@ -62,5 +68,7 @@ router.post('/signin', (req, res, next) => {
 		failureFlash: true,
 	})(req, res, next);
 });
+
+
 
 module.exports = router;
