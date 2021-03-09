@@ -3,8 +3,10 @@ const mongoose = require('mongoose');
 const db = require('./config/keys').mongoURI;
 const userRoute = require('./routes/UserRoute');
 const roomRoute = require('./routes/RoomRoute');
+const dashboardRoute = require('./routes/DashboardRoute');
 const index = require('./routes/index');
 const expressEjsLayout = require('express-ejs-layouts');
+
 const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
@@ -42,10 +44,10 @@ app.use((req, res, next) => {
 	next();
 });
 
+app.use('/dashboard', dashboardRoute);
 app.use('/user', userRoute);
 app.use('/room', roomRoute);
 app.use('/', index);
-
 
 app.listen(port, () => {
 	console.log(`Server running on port ${port}`);
