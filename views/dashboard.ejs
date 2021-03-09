@@ -3,6 +3,16 @@
 <a href="/room/roomform">Create Room</a>
 
 <form method="POST" action="/dashboard/profile">
-  <input name="_id" hidden value="<%= user._id %>">
-  <input type="submit" value="Profile">
+	<input name="_id" hidden value="<%= user._id %>" />
+	<input type="submit" value="Profile" />
 </form>
+
+<% if(rooms) {%>
+<ul>
+	<% for(room of rooms) {%>
+	<li>
+		<a href="/chatroom/<%= room.name %>"><%= room.name %></a>
+	</li>
+	<% } %>
+</ul>
+<%}%>

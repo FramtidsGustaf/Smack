@@ -1,21 +1,21 @@
-const express = require('express')
+const express = require('express');
 const router = express.Router();
-const {ensureAuthenticated} = require('../config/auth');
+const RoomModel = require('../models/room');
+const { ensureAuthenticated } = require('../config/auth');
 
 router.get('/roomform', ensureAuthenticated, (req, res) => {
-    res.render('roomform');
+	res.render('roomform');
 });
 
-router.post('/createroom', ensureAuthenticated,(req, res) => {
-    const RoomModel = require('./models/room');
-    const room = new RoomModel(req.body);
+router.post('/createroom', ensureAuthenticated, (req, res) => {
+	const room = new RoomModel(req.body);
 
-    room.save((error, result) => {
-        if (error) {
-            return handleError(error);
-        }
-        res.redirect('/');
-    });
+	room.save((error, result) => {
+		if (error) {
+			return handleError(error);
+		}
+		res.redirect('/dashboard');
+	});
 });
 
 module.exports = router;

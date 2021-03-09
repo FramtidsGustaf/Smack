@@ -4,6 +4,7 @@ const db = require('./config/keys').mongoURI;
 const userRoute = require('./routes/UserRoute');
 const roomRoute = require('./routes/RoomRoute');
 const dashboardRoute = require('./routes/DashboardRoute');
+const chatRoomRoute = require('./routes/ChatRoomRoute');
 const index = require('./routes/index');
 const expressEjsLayout = require('express-ejs-layouts');
 
@@ -48,6 +49,7 @@ app.use('/dashboard', dashboardRoute);
 app.use('/user', userRoute);
 app.use('/room', roomRoute);
 app.use('/', index);
+app.use('/chatroom', chatRoomRoute);
 
 app.listen(port, () => {
 	console.log(`Server running on port ${port}`);

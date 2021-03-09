@@ -2,10 +2,14 @@ const express = require('express');
 const router = express.Router();
 const { ensureAuthenticated } = require('../config/auth');
 const UserModel = require('../models/user');
+const RoomModel = require('../models/room');
 
 router.get('/', ensureAuthenticated, (req, res) => {
-	res.render('dashboard', {
-		user: req.user,
+	RoomModel.find().exec((error, rooms) => {
+		res.render('dashboard', {
+			user: req.user,
+			rooms,
+		});
 	});
 });
 
