@@ -12,9 +12,12 @@
   "author": "Robin Hedlund, Sebastian Carlson, Erik Somnäs, Gustaf Johnsson",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "mongoose": "^5.11.15",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
     "sass": "^1.32.8"
   }
 }

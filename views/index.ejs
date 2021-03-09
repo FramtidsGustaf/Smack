@@ -10,8 +10,11 @@
 
 <body>
   <h1>Hejsan!</h1>
-  <a href="/user/userform">Sign Up</a>
-  <a href="/room/roomform">Create Room</a>
+  <% if (typeof success !='undefined' ) { %>
+    <%= success %>
+      <% } %>
+        <a href="/user/userform">Sign Up</a>
+        <a href="/room/roomform">Create Room</a>
 </body>
 
 </html>
