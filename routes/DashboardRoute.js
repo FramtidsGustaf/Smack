@@ -16,4 +16,18 @@ router.post('/profile', ensureAuthenticated, (req, res) => {
 	});
 });
 
+router.post('/profile/update', ensureAuthenticated, async (req, res) => {
+	const { _id, first_name, last_name, username, email, topsecret } = req.body;
+	const userChanges = await UserModel.findOne({ _id });
+	userChanges.overwrite({
+		first_name,
+		last_name,
+		username,
+		email,
+		password: topsecret,
+	});
+	await userChanges.save();
+	res.redirect('/dashboard');
+});
+
 module.exports = router;
