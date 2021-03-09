@@ -1,75 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-	<meta charset="UTF-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Create User</title>
-</head>
-
-<body>
-	<h1>UserForm</h1>
-	<% if ( typeof errors !='undefined' ) { %>
-		<% for(let error of errors) { %>
-			<p>
-				<%= error.msg %>
-			</p>
-			<% } %>
-				<% } %>
-					<form method="post" action="/user/signup">
-						<table>
-							<tr>
-								<td>
-									<label for="first_name">First Name</label>
-								</td>
-								<td>
-									<input name="first_name" autocomplete="off" required id="first_name"
-										value="<%= typeof first_name != 'undefined' ? first_name : '' %>" />
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label for="last_name">Last Name</label>
-								</td>
-								<td>
-									<input name="last_name" autocomplete="off" required id="last_name"
-										value="<%= typeof last_name != 'undefined' ? last_name : '' %>" />
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label for="username">Username</label>
-								</td>
-								<td>
-									<input name="username" autocomplete="off" required id="username"
-										value="<%= typeof username != 'undefined' ? username : '' %>" />
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label for="email">Email</label>
-								</td>
-								<td>
-									<input type="email" name="email" autocomplete="off" required id="email"
-										value="<%= typeof email != 'undefined' ? email : '' %>" />
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label for="password">Password</label>
-								</td>
-								<td>
-									<input type="password" name="password" required id="password" />
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<input type="submit" value="Sign up" />
-								</td>
-							</tr>
-						</table>
-					</form>
-</body>
-
-</html>
+<h1>UserForm</h1>
+<%- include ('./partials/messages') %>
+<form method="post" action="/user/signup">
+	<table>
+		<tr>
+			<td>
+				<label for="first_name">First Name</label>
+			</td>
+			<td>
+				<input
+					name="first_name"
+					autocomplete="off"
+					required
+					id="first_name"
+					value="<%= typeof first_name != 'undefined' ? first_name : '' %>"
+				/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="last_name">Last Name</label>
+			</td>
+			<td>
+				<input
+					name="last_name"
+					autocomplete="off"
+					required
+					id="last_name"
+					value="<%= typeof last_name != 'undefined' ? last_name : '' %>"
+				/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="username">Username</label>
+			</td>
+			<td>
+				<input
+					name="username"
+					autocomplete="off"
+					required
+					id="username"
+					value="<%= typeof username != 'undefined' ? username : '' %>"
+				/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="email">Email</label>
+			</td>
+			<td>
+				<input
+					type="email"
+					name="email"
+					autocomplete="off"
+					required
+					id="email"
+					value="<%= typeof email != 'undefined' ? email : '' %>"
+				/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="password">Password</label>
+			</td>
+			<td>
+				<input type="password" name="password" required id="password" />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="submit" value="Sign up" />
+			</td>
+		</tr>
+	</table>
+</form>
