@@ -3,12 +3,18 @@ const router = express.Router();
 const RoomModel = require('../models/room');
 const { ensureAuthenticated } = require('../config/auth');
 
-router.get('/roomform', ensureAuthenticated, (req, res) => {
-	res.render('roomform');
+router.post('/roomform', ensureAuthenticated, (req, res) => {
+	const userid = req.body.userid;
+	res.render('roomform', { userid });
 });
 
 router.post('/createroom', ensureAuthenticated, (req, res) => {
-	const room = new RoomModel(req.body);
+	const { name, userid } = req.body;
+
+	const room = new RoomModel({
+		name,
+		admins: [userid],
+	});
 
 	room.save((error, result) => {
 		if (error) {

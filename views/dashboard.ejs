@@ -15,7 +15,7 @@
 	<div class="list-group">
 		<% for(room of rooms) {%>
 		<a
-			href="/chatroom/<%= room.name %>"
+			href="/chatroom/<%= room.name %>/<%=user.username%>"
 			class="list-group-item list-group-item-action"
 			aria-current="true"
 		>
@@ -24,10 +24,12 @@
 		<%}%>
 	</div>
 	<%}%>
-	<a
-		href="/room/roomform"
-		class="list-group-item list-group-item-action bg-success text-dark fs-3 rounded-pill mt-1 h-10"
-		aria-current="true"
-		>+</a
-	>
+	<form method="POST" action="/room/roomform">
+		<input hidden value="<%= user._id %>" name="userid" />
+		<input
+			class="list-group-item list-group-item-action bg-primary text-dark fs-3 rounded-pill mt-1 h-10"
+			type="submit"
+			value="+"
+		/>
+	</form>
 </div>

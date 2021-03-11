@@ -1,18 +1,4 @@
-<h1>Create room</h1>
 <%- include ('./partials/messages')%>
-<form method="post" action="/room/createroom">
-	<table>
-		<tr>
-			<td><label for="name">Room name</label></td>
-			<td><input name="name" /></td>
-		</tr>
-		<tr>
-			<td>
-				<input type="submit" value="Create Room" />
-			</td>
-		</tr>
-	</table>
-</form>
 
 <div
 	class="container col-3 border border-primary position-absolute top-50 start-50 translate-middle"
@@ -30,6 +16,7 @@
 					placeholder="Enter room name"
 					required
 				/>
+				<input hidden name="userid" value="<%= userid %>" />
 			</div>
 			<button type="submit" class="btn btn-primary mt-2">Add room</button>
 		</fieldset>

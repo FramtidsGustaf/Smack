@@ -1,5 +1,9 @@
-<h1><%= name %></h1>
+<h1><%= room.name %></h1>
 
+<% if(room.admins.includes(myUser._id)) {%>
 
+<button id="delete-button" value="<%= room._id%>">Delete this room</button>
+<input hidden id="user-id" value="<%= myUser._id%>" />
+<%}%>
 
 <script src="/scripts/chat.js"></script>
