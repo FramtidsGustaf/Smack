@@ -1,69 +1,66 @@
-<form method="post" action="/dashboard/profile/update">
-	<table>
-		<tr>
-			<td>
+<%- include ('./partials/messages') %>
+
+<div
+	class="container col-3 border border-primary position-absolute top-50 start-50 translate-middle"
+>
+	<form method="post" action="/dashboard/profile/update">
+		<fieldset>
+			<legend>Update Profile</legend>
+
+			<div class="form-group">
 				<label for="first_name">First Name</label>
-			</td>
-			<td>
 				<input
 					name="first_name"
 					autocomplete="off"
+					class="form-control"
 					required
 					id="first_name"
 					value="<%= typeof user.first_name != 'undefined' ? user.first_name : '' %>"
 				/>
-			</td>
-		</tr>
-		<tr>
-			<td>
+			</div>
+
+			<div class="form-group">
 				<label for="last_name">Last Name</label>
-			</td>
-			<td>
 				<input
 					name="last_name"
 					autocomplete="off"
+					class="form-control"
 					required
 					id="last_name"
 					value="<%= typeof user.last_name != 'undefined' ? user.last_name : '' %>"
 				/>
-			</td>
-		</tr>
-		<tr>
-			<td>
+			</div>
+
+			<div class="form-group">
 				<label for="username">Username</label>
-			</td>
-			<td>
 				<input
 					name="username"
 					autocomplete="off"
+					class="form-control"
 					required
 					id="username"
 					value="<%= typeof user.username != 'undefined' ? user.username : '' %>"
 				/>
-			</td>
-		</tr>
-		<tr>
-			<td>
+			</div>
+
+			<div class="form-group">
 				<label for="email">Email</label>
-			</td>
-			<td>
 				<input
 					type="email"
 					name="email"
+					class="form-control"
 					autocomplete="off"
 					required
 					id="email"
 					value="<%= typeof user.email != 'undefined' ? user.email : '' %>"
 				/>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<input type="submit" value="Save changes" />
-			</td>
-		</tr>
-	</table>
-	<input type="text" hidden name="_id" value="<%= user._id %>" />
-  <input type="text" hidden name="topsecret" value="<%= user.password %>">
-</form>
+			</div>
+
+			<input type="submit" value="Save changes" class="btn btn-primary mt-2" />
+		</fieldset>
+		<input type="text" hidden name="_id" value="<%= user._id %>" />
+		<input type="text" hidden name="topsecret" value="<%= user.password %>" />
+	</form>
+</div>
+
 <!--Add picture will be available in next update will cost Bitcoins-->

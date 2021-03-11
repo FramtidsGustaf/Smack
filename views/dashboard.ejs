@@ -1,18 +1,33 @@
-<h1><%= user.first_name%></h1>
-<a href="user/signout">Signout</a>
-<a href="/room/roomform">Create Room</a>
+<div class="position-absolute top-0 end-0 m-3">
+	<a class="btn btn-warning w-100" href="user/signout">Signout</a>
+	<form method="POST" class="mt-3" action="/dashboard/profile">
+		<input name="_id" hidden value="<%= user._id %>" />
+		<input
+			type="submit"
+			class="btn btn-secondary w-100"
+			value="<%=user.first_name%>"
+		/>
+	</form>
+</div>
 
-<form method="POST" action="/dashboard/profile">
-	<input name="_id" hidden value="<%= user._id %>" />
-	<input type="submit" value="Profile" />
-</form>
-
-<% if(rooms) {%>
-<ul>
-	<% for(room of rooms) {%>
-	<li>
-		<a href="/chatroom/<%= room.name %>"><%= room.name %></a>
-	</li>
-	<% } %>
-</ul>
-<%}%>
+<div class="h-50 position-absolute top-15 start-0 w-10">
+	<%if(rooms) {%>
+	<div class="list-group">
+		<% for(room of rooms) {%>
+		<a
+			href="/chatroom/<%= room.name %>"
+			class="list-group-item list-group-item-action"
+			aria-current="true"
+		>
+			<%= room.name %>
+		</a>
+		<%}%>
+	</div>
+	<%}%>
+	<a
+		href="/room/roomform"
+		class="list-group-item list-group-item-action bg-success text-dark fs-3 rounded-pill mt-1 h-10"
+		aria-current="true"
+		>+</a
+	>
+</div>

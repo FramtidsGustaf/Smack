@@ -8157,6 +8157,10 @@ button.bg-dark:focus {
   box-shadow: none !important;
 }
 
+.w-10 {
+  width: 10% !important;
+}
+
 .w-25 {
   width: 25% !important;
 }
@@ -10569,4 +10573,8 @@ a.text-dark:hover, a.text-dark:focus {
 .alert-light a:not(.btn),
 .alert-light .alert-link {
   color: #002b36;
+}
+
+.top-15 {
+  top: 15% !important;
 }
