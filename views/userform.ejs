@@ -1,76 +1,73 @@
-<h1>UserForm</h1>
 <%- include ('./partials/messages') %>
-<form method="post" action="/user/signup">
-	<table>
-		<tr>
-			<td>
+
+<div
+	class="container col-3 border border-primary position-absolute top-50 start-50 translate-middle"
+>
+	<form method="post" action="/user/signup">
+		<fieldset>
+			<legend>Create User</legend>
+
+			<div class="form-group">
 				<label for="first_name">First Name</label>
-			</td>
-			<td>
 				<input
 					name="first_name"
 					autocomplete="off"
+					class="form-control"
 					required
 					id="first_name"
 					value="<%= typeof first_name != 'undefined' ? first_name : '' %>"
 				/>
-			</td>
-		</tr>
-		<tr>
-			<td>
+			</div>
+
+			<div class="form-group">
 				<label for="last_name">Last Name</label>
-			</td>
-			<td>
 				<input
 					name="last_name"
 					autocomplete="off"
+					class="form-control"
 					required
 					id="last_name"
 					value="<%= typeof last_name != 'undefined' ? last_name : '' %>"
 				/>
-			</td>
-		</tr>
-		<tr>
-			<td>
+			</div>
+
+			<div class="form-group">
 				<label for="username">Username</label>
-			</td>
-			<td>
 				<input
 					name="username"
 					autocomplete="off"
+					class="form-control"
 					required
 					id="username"
 					value="<%= typeof username != 'undefined' ? username : '' %>"
 				/>
-			</td>
-		</tr>
-		<tr>
-			<td>
+			</div>
+
+			<div class="form-group">
 				<label for="email">Email</label>
-			</td>
-			<td>
 				<input
 					type="email"
 					name="email"
+					class="form-control"
 					autocomplete="off"
 					required
 					id="email"
 					value="<%= typeof email != 'undefined' ? email : '' %>"
 				/>
-			</td>
-		</tr>
-		<tr>
-			<td>
+			</div>
+
+			<div class="form-group">
 				<label for="password">Password</label>
-			</td>
-			<td>
-				<input type="password" name="password" required id="password" />
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<input type="submit" value="Sign up" />
-			</td>
-		</tr>
-	</table>
-</form>
+				<input
+					type="password"
+					class="form-control"
+					name="password"
+					required
+					id="password"
+				/>
+			</div>
+
+			<input type="submit" value="Sign up" class="btn btn-primary mt-2" />
+		</fieldset>
+	</form>
+</div>

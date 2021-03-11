@@ -7,6 +7,7 @@ const dashboardRoute = require('./routes/DashboardRoute');
 const chatRoomRoute = require('./routes/ChatRoomRoute');
 const index = require('./routes/index');
 const expressEjsLayout = require('express-ejs-layouts');
+const path = require('path');
 
 const session = require('express-session');
 const flash = require('connect-flash');
@@ -23,6 +24,8 @@ mongoose
 
 app.set('view engine', 'ejs');
 app.use(expressEjsLayout);
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.urlencoded({ extended: true }));
 

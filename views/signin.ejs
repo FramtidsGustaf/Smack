@@ -1,32 +1,40 @@
-<h1>Sign in</h1>
 <%- include ('./partials/messages') %>
-<form method="post" action="/user/signin">
-	<table>		
-		<tr>
-			<td>
-				<label for="usr">Email</label>
-			</td>
-			<td>
+
+<div
+	class="container col-3 border border-primary position-absolute top-50 start-50 translate-middle"
+>
+	<form method="POST" action="/user/signin">
+		<fieldset>
+			<legend>Sign In</legend>
+			<div class="form-group">
+				<label for="email">Email</label>
 				<input
-					name="email"
 					autocomplete="off"
-					required
+					type="email"
+					s
+					name="email"
+					class="form-control"
 					id="email"
+					aria-describedby="emailHelp"
+					placeholder="Enter email"
+					required
 				/>
-			</td>
-		</tr>
-		<tr>
-			<td>
+				<small id="emailHelp" class="form-text text-muted"
+					>We'll never share your email with anyone else. Or?</small
+				>
+			</div>
+			<div class="form-group">
 				<label for="password">Password</label>
-			</td>
-			<td>
-				<input type="password" name="password" required id="password" />
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<input type="submit" value="Sign in" />
-			</td>
-		</tr>
-	</table>
-</form>
+				<input
+					type="password"
+					name="password"
+					class="form-control"
+					id="password"
+					placeholder="Password"
+					required
+				/>
+			</div>
+			<button type="submit" class="btn btn-primary mt-2">Sign in</button>
+		</fieldset>
+	</form>
+</div>
