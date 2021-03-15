@@ -44,9 +44,7 @@ router.post('/signup', (req, res) => {
 					if (error) {
 						throw error;
 					}
-
 					newUser.password = hash;
-
 					newUser.save().then((value) => {
 						req.flash('success_msg', 'You have now registered!');
 						res.redirect('/');
