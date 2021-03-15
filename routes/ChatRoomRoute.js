@@ -4,27 +4,20 @@ const { ensureAuthenticated } = require('../config/auth');
 const RoomModel = require('../models/room');
 const UserModel = require('../models/user');
 
-router.get('/:id/:user', ensureAuthenticated, (req, res) => {
-	const user = req.params.user;
+router.get('/:id', ensureAuthenticated, (req, res) => {
+	const { user } = req;
 	const id = req.params.id;
 
 	RoomModel.findOne({ name: id }).exec((error, room) => {
 		if (error) {
 			console.log(error);
 		}
-		UserModel.findOne({ username: user }).exec((error, myUser) => {
-			if (error) {
-				console.log(error);
-			}
-			const isAdmin = room.admins.includes(myUser._id);
-			res.render('chatroom', { room, myUser });
-		});
+		res.render('chatroom', { room, user });
 	});
 });
 
-router.delete('/deleteroom/:room/:user', (req, res) => {
+router.delete('/deleteroom/:room/', (req, res) => {
 	const roomId = req.params.room;
-	const userId = req.params.user;
 	RoomModel.deleteOne({ _id: roomId }).exec((error) => {
 		if (error) {
 			console.log(error);
