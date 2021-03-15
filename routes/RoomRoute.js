@@ -14,6 +14,7 @@ router.post('/createroom', ensureAuthenticated, (req, res) => {
 	const room = new RoomModel({
 		name,
 		admins: [_id],
+		users: [_id],
 	});
 
 	room.save((error, result) => {

@@ -12,6 +12,10 @@ const RoomSchema = new Schema({
 			ref: 'User',
 		},
 	],
+	isPublic: {
+		type: Boolean,
+		default: false,
+	},
 	messages: [
 		{
 			type: Schema.Types.ObjectId,
