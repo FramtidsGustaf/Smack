@@ -34,10 +34,12 @@ const chatRoomRoute = require('./routes/ChatRoomRoute');
 const index = require('./routes/index');
 const api = require('./routes/api');
 
+// behövde lägga till {useFinfAndModify: false} för att få findOneAndUpdate för att lira 
 mongoose
-	.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
+	.connect(db, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
 	.then(() => console.log('MongoDB connected...'))
 	.catch((error) => console.log(error));
+
 
 app.set('view engine', 'ejs');
 app.use(expressEjsLayout);
@@ -98,14 +100,17 @@ io.on('connection', (socket) => {
 				if (error) {
 					throw error;
 				}
-
 				msg.author = currentUser._id;
 				const newMessage = new MessageModel(msg);
 				//this needs to be fixed urgent!
 				RoomModel.findOneAndUpdate(
 					{ _id: user.room },
-					{ $push: { messages: newMessage._id } }
-				);
+					{ $push: { messages: newMessage._id } },
+					function (error) {
+						if (error) {
+							console.log(error);
+						}
+					});
 
 				newMessage.save((error, result) => {
 					if (error) {
