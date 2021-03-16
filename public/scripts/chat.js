@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
 	const room = document.getElementById('room-id').value;
 	const username = document.getElementById('username').value;
 	const userList = document.getElementById('user-list');
+	const chatContainer = document.getElementById('chat-container');
+	const messageForm = document.getElementById('message-form');
 
 	deleteButton &&
 		deleteButton.addEventListener('click', () => {
@@ -18,7 +20,37 @@ document.addEventListener('DOMContentLoaded', (e) => {
 	socket.emit('joinRoom', { username, room });
 
 	socket.on('message', (message) => {
-		console.log(message);
+		const author = document.createElement('span');
+		const time = document.createElement('span');
+		const messageContent = document.createElement('p');
+		const messageContainer = document.createElement('div');
+
+		author.classList.add('p-5');
+		messageContent.classList.add(
+			'mt-1',
+			'bg-danger',
+			'p-3',
+			'rounded-pill',
+			'm-1'
+		);
+
+		author.textContent = message.author;
+		time.textContent = message.time;
+		messageContent.textContent = message.message;
+
+		messageContainer.append(author, time, messageContent);
+		chatContainer.appendChild(messageContainer);
+	});
+
+	messageForm.addEventListener('submit', (e) => {
+		e.preventDefault();
+
+		const message = e.target.elements.message;
+
+		socket.emit('chatMessage', message.value);
+
+		message.value = '';
+		message.focus();
 	});
 
 	socket.on('roomUsers', (users) => {

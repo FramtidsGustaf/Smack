@@ -2,13 +2,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const MessageSchema = new Schema({
-	message_content: {
+	message: {
 		type: String,
 		required: true,
 	},
-	timestamp: {
+	time: {
 		type: Date,
-		default: Date.now(),
+		required: true,
 	},
 	author: {
 		type: Schema.Types.ObjectId,
@@ -16,3 +16,5 @@ const MessageSchema = new Schema({
 		required: true,
 	},
 });
+
+module.exports = mongoose.model('Message', MessageSchema);

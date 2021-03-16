@@ -13,32 +13,15 @@
 </div>
 
 <input value="<%=user.username%>" hidden id="username" />
-<div class="bg-white h-75">
-	<div>
-		<span class="p-5">Gustaf</span><span>2020-01-20</span> <br />
-		<p class="mt-1 bg-danger p-3 rounded-pill m-1">
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda magnam
-			earum sequi enim recusandae. Accusamus nemo libero in? Voluptatum suscipit
-			amet fugiat, laboriosam, deserunt in expedita omnis minima iure culpa
-			dolorem dicta, nam quisquam cum ab consectetur eaque! Voluptatum voluptate
-			quod similique saepe nisi assumenda sequi aspernatur obcaecati fuga
-			quibusdam.
-		</p>
-	</div>
-</div>
-<form class="w-100">
+<div class="bg-white h-75" id="chat-container"></div>
+<form class="w-100" id="message-form">
 	<input
 		type="text"
 		id="message"
 		class="form-control"
 		placeholder="Message..."
 	/>
-	<input
-		id="send-button"
-		type="submit"
-		value="Send Message"
-		class="btn btn-success"
-	/>
+	<input type="submit" value="Send Message" class="btn btn-success" />
 </form>
 
 <script

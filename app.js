@@ -10,6 +10,12 @@ const {
 	getRoomUsers,
 } = require('./utils/users');
 
+const moment = require('moment');
+
+const MessageModel = require('./models/message');
+const UserModel = require('./models/user');
+const RoomModel = require('./models/room');
+
 const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
@@ -71,12 +77,38 @@ io.on('connection', (socket) => {
 		const user = userJoin(socket.id, username, room);
 		socket.join(user.room);
 
-		socket.emit('message', `Välkommen till ${room}`);
-
 		io.to(user.room).emit('roomUsers', {
 			users: getRoomUsers(user.room),
 		});
 	});
+
+	socket.on('chatMessage', (message) => {
+		const user = getCurrentUser(socket.id);
+
+		const msg = {
+			message,
+			time: moment().format('YYYY MMMM D, HH:mm'),
+			author: user.username,
+		};
+
+		io.to(user.room).emit('message', msg);
+
+		UserModel.findOne({ username: user.username }).exec((error, user) => {
+			if (error) {
+				throw error;
+			}
+			msg.author = user._id;
+			const newMessage = new MessageModel(msg);
+
+			newMessage.save((error, result) => {
+				if(error) {
+					return handleError(error);
+				}
+			});
+		});
+
+	});
+
 	socket.on('disconnect', () => {
 		const user = userLeave(socket.id);
 		const { room, username } = user;
