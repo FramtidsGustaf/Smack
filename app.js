@@ -92,14 +92,14 @@ io.on('connection', (socket) => {
 		};
 
 		io.to(user.room).emit('message', msg);
-
+		
 		UserModel.findOne({ username: user.username }).exec((error, user) => {
 			if (error) {
 				throw error;
 			}
 			msg.author = user._id;
 			const newMessage = new MessageModel(msg);
-
+			RoomModel.updateOne({_id: user.room}, {$push: {messages: newMessage._id}});
 			newMessage.save((error, result) => {
 				if(error) {
 					return handleError(error);
