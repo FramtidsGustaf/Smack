@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { ensureAuthenticated } = require('../config/auth');
 const RoomModel = require('../models/room');
-const UserModel = require('../models/user');
 
 router.get('/:id', ensureAuthenticated, (req, res) => {
 	const { user } = req;

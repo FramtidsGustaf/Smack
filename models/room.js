@@ -14,7 +14,7 @@ const RoomSchema = new Schema({
 	],
 	isPublic: {
 		type: Boolean,
-		default: false,
+		default: true,
 	},
 	messages: [
 		{

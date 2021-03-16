@@ -2,29 +2,28 @@
 
 <% if(room.admins.includes(user._id)) {%>
 
-<button id="delete-button" value="<%= room._id%>">Delete this room</button>
+<button id="delete-button">Delete this room</button>
+
 <%}%>
 
+<input hidden id="room-id" value="<%= room._id %>" />
+
+<div class="h-50 position-absolute top-15 start-0 w-10">
+	<div class="list-group" id="user-list"></div>
+</div>
+
+<input value="<%=user.username%>" hidden id="username" />
 <div class="bg-white h-75">
 	<div>
 		<span class="p-5">Gustaf</span><span>2020-01-20</span> <br />
-		<p class="mt-1 bg-danger p-2 pl-5 rounded-pill">
+		<p class="mt-1 bg-danger p-3 rounded-pill m-1">
 			Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda magnam
 			earum sequi enim recusandae. Accusamus nemo libero in? Voluptatum suscipit
 			amet fugiat, laboriosam, deserunt in expedita omnis minima iure culpa
 			dolorem dicta, nam quisquam cum ab consectetur eaque! Voluptatum voluptate
 			quod similique saepe nisi assumenda sequi aspernatur obcaecati fuga
 			quibusdam.
-    </p>
-	</div>
-
-	<div class="mt-1 bg-light">
-		<span>Gustaf</span><span>2020-01-20</span> <br />
-		Hejsan Jag heter Gustaf
-	</div>
-	<div class="mt-1 bg-light">
-		<span>Gustaf</span><span>2020-01-20</span> <br />
-		Hejsan Jag heter Gustaf
+		</p>
 	</div>
 </div>
 <form class="w-100">
@@ -34,7 +33,18 @@
 		class="form-control"
 		placeholder="Message..."
 	/>
-	<input id="send-button" type="submit" value="Send Message" class="btn btn-success" />
+	<input
+		id="send-button"
+		type="submit"
+		value="Send Message"
+		class="btn btn-success"
+	/>
 </form>
 
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.6/qs.min.js"
+	integrity="sha512-3TmPrquYLaAsUmZKXRARTDC5siWhLAdBVqNo4dWpDABBtLU62AaoTaQJEvjxjExcZYurO6i1dnK85k8pPIBlRg=="
+	crossorigin="anonymous"
+></script>
+<script src="/socket.io/socket.io.js"></script>
 <script src="/scripts/chat.js"></script>

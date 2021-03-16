@@ -1,13 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const db = require('./config/keys').mongoURI;
-const userRoute = require('./routes/UserRoute');
-const roomRoute = require('./routes/RoomRoute');
-const dashboardRoute = require('./routes/DashboardRoute');
-const chatRoomRoute = require('./routes/ChatRoomRoute');
-const index = require('./routes/index');
 const expressEjsLayout = require('express-ejs-layouts');
 const path = require('path');
+const {
+	userJoin,
+	getCurrentUser,
+	userLeave,
+	getRoomUsers,
+} = require('./utils/users');
 
 const session = require('express-session');
 const flash = require('connect-flash');
@@ -16,6 +17,16 @@ require('./config/passport')(passport);
 
 const app = express();
 const port = process.env.port || 3000;
+
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+
+const userRoute = require('./routes/UserRoute');
+const roomRoute = require('./routes/RoomRoute');
+const dashboardRoute = require('./routes/DashboardRoute');
+const chatRoomRoute = require('./routes/ChatRoomRoute');
+const index = require('./routes/index');
+const api = require('./routes/api');
 
 mongoose
 	.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -53,7 +64,31 @@ app.use('/user', userRoute);
 app.use('/room', roomRoute);
 app.use('/', index);
 app.use('/chatroom', chatRoomRoute);
+app.use('/api', api);
 
-app.listen(port, () => {
+io.on('connection', (socket) => {
+	socket.on('joinRoom', ({ username, room }) => {
+		const user = userJoin(socket.id, username, room);
+		socket.join(user.room);
+
+		socket.emit('message', `Välkommen till ${room}`);
+
+		io.to(user.room).emit('roomUsers', {
+			users: getRoomUsers(user.room),
+		});
+	});
+	socket.on('disconnect', () => {
+		const user = userLeave(socket.id);
+		const { room, username } = user;
+
+		if (user) {
+			io.to(user.room).emit('roomUsers', {
+				users: getRoomUsers(user.room),
+			});
+		}
+	});
+});
+
+server.listen(port, () => {
 	console.log(`Server running on port ${port}`);
 });
