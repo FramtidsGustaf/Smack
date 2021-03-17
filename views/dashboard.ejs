@@ -1,27 +1,20 @@
 <div class="position-absolute top-0 end-0 m-3">
 	<a class="btn btn-warning w-100" href="user/signout">Signout</a>
-	<a class="btn btn-warning w-100 mt-3" href="/dashboard/profile"
-		><%= user.first_name %></a
-	>
+	<a class="btn btn-warning w-100 mt-3" href="/dashboard/profile">
+		<%= user.first_name %>
+	</a>
 </div>
 
 <div class="h-50 position-absolute top-15 start-0 w-10">
 	<%if(rooms) {%>
-	<div class="list-group">
-		<% for(room of rooms) {%>
-		<a
-			href="/chatroom/<%= room.name %>"
-			class="list-group-item list-group-item-action"
-			aria-current="true"
-		>
-			<%= room.name %>
-		</a>
+		<div class="list-group">
+			<% for(room of rooms) {%>
+				<a href="/chatroom/<%= room._id %>" class="list-group-item list-group-item-action" aria-current="true">
+					<%= room.name %>
+				</a>
+				<%}%>
+		</div>
 		<%}%>
-	</div>
-	<%}%>
-	<a
-		class="list-group-item list-group-item-action bg-primary text-dark fs-3 rounded-pill mt-1 h-10"
-		href="/room/roomform"
-		>+</a
-	>
+			<a class="list-group-item list-group-item-action bg-primary text-dark fs-3 rounded-pill mt-1 h-10"
+				href="/room/roomform">+</a>
 </div>

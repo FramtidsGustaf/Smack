@@ -7,7 +7,7 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
 	const { user } = req;
 	const id = req.params.id;
 
-	RoomModel.findOne({ name: id }).populate({ path: 'messages', populate: { path: 'author' } }).exec((error, room) => {
+	RoomModel.findOne({ _id: id }).populate({ path: 'messages', populate: { path: 'author' } }).exec((error, room) => {
 		if (error) {
 			console.log(error);
 		}

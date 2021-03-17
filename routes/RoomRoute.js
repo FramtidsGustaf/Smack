@@ -10,15 +10,12 @@ router.get('/roomform', ensureAuthenticated, (req, res) => {
 
 router.post('/createroom', ensureAuthenticated, (req, res) => {
 	const { _id } = req.user;
-	let { name, isPrivate } = req.body;
-	console.log(isPrivate);
-	isPrivate = isPrivate ? true : false;
-
+	const { name, isPrivate, includedUsers } = req.body;
 
 	const room = new RoomModel({
 		name,
 		admins: [_id],
-		users: [_id],
+		users: [...includedUsers, _id],
 		isPrivate
 	});
 
@@ -26,8 +23,8 @@ router.post('/createroom', ensureAuthenticated, (req, res) => {
 		if (error) {
 			return handleError(error);
 		}
-		res.redirect('/dashboard');
 	});
+	res.end();
 });
 
 module.exports = router;
