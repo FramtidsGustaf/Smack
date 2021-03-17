@@ -28,14 +28,14 @@ router.post('/signup', (req, res) => {
 	}
 
 	// password must be 6 char long
-	if (password.length <= 6) {
+	if (password.length < 6) {
 		errors.push({ msg: 'Password must be atleast 6 character long' });
 	}
 
 	// check if errors else register user
-	UserModel.findOne({ email }).exec((error, user) => {
+	UserModel.findOne({ $or: [{ email }, { username }] }).exec((error, user) => {
 		if (user) {
-			errors.push({ msg: 'Email already registerd' });
+			errors.push({ msg: 'Email or Username already registerd' });
 			res.render('userform', { errors, first_name, last_name, username });
 		} else {
 			const newUser = new UserModel(req.body);
