@@ -6,6 +6,12 @@ document.addEventListener('DOMContentLoaded', (e) => {
 	const chatContainer = document.getElementById('chat-container');
 	const messageForm = document.getElementById('message-form');
 
+	const scrollToBottom = () => {
+		chatContainer.scrollTop = chatContainer.scrollHeight;
+	};
+
+	scrollToBottom();
+
 	deleteButton &&
 		deleteButton.addEventListener('click', () => {
 			fetch(`/chatroom/deleteroom/${room}`, {
@@ -40,6 +46,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
 		messageContainer.append(author, time, messageContent);
 		chatContainer.appendChild(messageContainer);
+		scrollToBottom();
 	});
 
 	messageForm.addEventListener('submit', (e) => {

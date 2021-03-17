@@ -106,7 +106,7 @@ io.on('connection', (socket) => {
 				RoomModel.findOneAndUpdate(
 					{ _id: user.room },
 					{ $push: { messages: newMessage._id } },
-					function (error) {
+					(error) => {
 						if (error) {
 							console.log(error);
 						}

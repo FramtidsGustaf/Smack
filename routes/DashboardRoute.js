@@ -6,7 +6,7 @@ const RoomModel = require('../models/room');
 
 router.get('/', ensureAuthenticated, (req, res) => {
 	const { user } = req;
-	RoomModel.find({$or: [{isPublic: true}, {users: {$all: [user._id]}}]}).exec((error, rooms) => {
+	RoomModel.find({ $or: [{ isPrivate: false }, { users: { $all: [user._id] } }] }).exec((error, rooms) => {
 		res.render('dashboard', {
 			user,
 			rooms,

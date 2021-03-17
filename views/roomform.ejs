@@ -1,24 +1,23 @@
 <%- include ('./partials/messages')%>
 
-<div
-	class="container col-3 border border-primary position-absolute top-50 start-50 translate-middle"
->
-	<form method="POST" action="/room/createroom">
-		<fieldset>
-			<legend>Add Room</legend>
-			<div class="form-group">
-				<label for="name">Room Name</label>
-				<input
-					autocomplete="off"
-					name="name"
-					class="form-control"
-					id="name"
-					placeholder="Enter room name"
-					required
-				/>
-				<input hidden name="userid" value="<%= userid %>" />
-			</div>
-			<button type="submit" class="btn btn-primary mt-2">Add room</button>
-		</fieldset>
-	</form>
-</div>
+	<div class="container col-3 border border-primary position-absolute top-50 start-50 translate-middle">
+		<form method="POST" action="/room/createroom">
+			<fieldset>
+				<legend>Add Room</legend>
+				<div class="form-group">
+					<label for="name">Room Name</label>
+					<input autocomplete="off" name="name" class="form-control" id="name" placeholder="Enter room name"
+						required />
+					<div class="custom-control custom-switch">
+						<input type="checkbox" class="custom-control-input" name="isPrivate" value="true"
+							id="private-switch">
+						<label class="custom-control-label" for="private-switch" id="private-label">Public
+							Room</label>
+					</div>
+					<input hidden name="userid" value="<%= userid %>" />
+				</div>
+				<button type="submit" class="btn btn-primary mt-2">Add room</button>
+			</fieldset>
+		</form>
+	</div>
+	<script src="/scripts/roomform.js"></script>

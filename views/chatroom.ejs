@@ -1,33 +1,41 @@
-<h1><%= room.name %></h1>
+<h1>
+	<%= room.name %>
+</h1>
 
 <% if(room.admins.includes(user._id)) {%>
 
-<button id="delete-button">Delete this room</button>
+	<button id="delete-button">Delete this room</button>
 
-<%}%>
+	<%}%>
 
-<input hidden id="room-id" value="<%= room._id %>" />
+		<input hidden id="room-id" value="<%= room._id %>" />
 
-<div class="h-50 position-absolute top-15 start-0 w-10">
-	<div class="list-group" id="user-list"></div>
-</div>
+		<div class="h-50 position-absolute top-15 start-0 w-10">
+			<div class="list-group" id="user-list"></div>
+		</div>
 
-<input value="<%=user.username%>" hidden id="username" />
-<div class="bg-white h-75" id="chat-container"></div>
-<form class="w-100" id="message-form">
-	<input
-		type="text"
-		id="message"
-		class="form-control"
-		placeholder="Message..."
-	/>
-	<input type="submit" value="Send Message" class="btn btn-success" />
-</form>
+		<input value="<%=user.username%>" hidden id="username" />
+		<div class="bg-white h-75 overflow-auto" id="chat-container">
+			<% for(message of messages) { %>
+				<div>
+					<span class="p-5">
+						<%=message.author.username%>
+					</span><span>
+						<%=message.time%>
+					</span>
+					<p class="mt-1 bg-danger p-3 rounded-pill m-1">
+						<%=message.message%>
+					</p>
+				</div>
+				<%}%>
+		</div>
+		<form class="w-100" id="message-form">
+			<input type="text" id="message" class="form-control" placeholder="Message..." />
+			<input type="submit" value="Send Message" class="btn btn-success" />
+		</form>
 
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.6/qs.min.js"
-	integrity="sha512-3TmPrquYLaAsUmZKXRARTDC5siWhLAdBVqNo4dWpDABBtLU62AaoTaQJEvjxjExcZYurO6i1dnK85k8pPIBlRg=="
-	crossorigin="anonymous"
-></script>
-<script src="/socket.io/socket.io.js"></script>
-<script src="/scripts/chat.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.6/qs.min.js"
+			integrity="sha512-3TmPrquYLaAsUmZKXRARTDC5siWhLAdBVqNo4dWpDABBtLU62AaoTaQJEvjxjExcZYurO6i1dnK85k8pPIBlRg=="
+			crossorigin="anonymous"></script>
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="/scripts/chat.js"></script>

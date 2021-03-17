@@ -7,12 +7,18 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
 	const { user } = req;
 	const id = req.params.id;
 
-	RoomModel.findOne({ name: id }).exec((error, room) => {
+	RoomModel.findOne({ name: id }).populate({ path: 'messages', populate: { path: 'author' } }).exec((error, room) => {
 		if (error) {
 			console.log(error);
 		}
-		res.render('chatroom', { room, user });
+		const { messages } = room;
+		res.render('chatroom', {
+			user,
+			messages,
+			room,
+		});
 	});
+
 });
 
 router.delete('/deleteroom/:room/', (req, res) => {

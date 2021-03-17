@@ -12,9 +12,9 @@ const RoomSchema = new Schema({
 			ref: 'User',
 		},
 	],
-	isPublic: {
+	isPrivate: {
 		type: Boolean,
-		default: true,
+		default: false,
 	},
 	messages: [
 		{
