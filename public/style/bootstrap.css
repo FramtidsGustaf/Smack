@@ -8181,6 +8181,14 @@ button.bg-dark:focus {
   width: auto !important;
 }
 
+.h-5 {
+  height: 5% !important;
+}
+
+.h-10 {
+  height: 10% !important;
+}
+
 .h-25 {
   height: 25% !important;
 }

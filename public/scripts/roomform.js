@@ -17,6 +17,9 @@ document.addEventListener('DOMContentLoaded', (e) => {
             }
             label = 'Private Room';
             if (users) {
+                const p = document.createElement('p');
+                p.textContent = 'Add user/users';
+                userList.append(p);
                 for (user of users) {
                     const div = document.createElement('div');
                     const input = document.createElement('input');
