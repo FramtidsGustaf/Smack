@@ -13,6 +13,8 @@ router.post('/createroom', ensureAuthenticated, (req, res) => {
 	let { name, isPrivate } = req.body;
 	console.log(isPrivate);
 	isPrivate = isPrivate ? true : false;
+
+
 	const room = new RoomModel({
 		name,
 		admins: [_id],

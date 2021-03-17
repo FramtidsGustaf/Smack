@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/username', (req, res) => {
-	const user = req.user;
-	res.json(user);
+router.get('/allusers', (req, res) => {
+
 });
 
 module.exports = router;
