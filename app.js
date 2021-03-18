@@ -33,6 +33,7 @@ const dashboardRoute = require('./routes/DashboardRoute');
 const chatRoomRoute = require('./routes/ChatRoomRoute');
 const index = require('./routes/index');
 const api = require('./routes/api');
+const profilePicRoute = require('./routes/ProfilePicRoute');
 
 mongoose
 	.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
@@ -74,6 +75,7 @@ app.use('/room', roomRoute);
 app.use('/', index);
 app.use('/chatroom', chatRoomRoute);
 app.use('/api', api);
+app.use('/profilepic', profilePicRoute)
 
 //the web socket part
 io.on('connection', (socket) => {

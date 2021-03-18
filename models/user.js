@@ -27,6 +27,7 @@ const UserSchema = new Schema({
 		required: true,
 		maxlength: 100,
 	},
+	profilepic: String,
 	isOnline: {
 		type: Boolean,
 		default: false,
