@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
     let isFetched = false;
     let users;
 
+
+    //public/private switch
     privateSwitch.addEventListener('click', async (e) => {
         let label = 'Public Room';
         if (privateSwitch.checked) {
@@ -42,6 +44,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
         privateLabel.textContent = label;
     });
 
+    //submiting the roomform
     submitButton.addEventListener('click', e => {
         e.preventDefault();
         const includedUsers = [];
@@ -69,8 +72,4 @@ document.addEventListener('DOMContentLoaded', (e) => {
                 window.location.href = '/dashboard';
             })
     });
-
-
-
-
 });

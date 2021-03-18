@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const db = require('./config/keys').mongoURI;
+require('dotenv').config();
 const expressEjsLayout = require('express-ejs-layouts');
 const path = require('path');
 const {
@@ -34,12 +34,10 @@ const chatRoomRoute = require('./routes/ChatRoomRoute');
 const index = require('./routes/index');
 const api = require('./routes/api');
 
-// behövde lägga till {useFinfAndModify: false} för att få findOneAndUpdate för att lira 
 mongoose
-	.connect(db, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+	.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
 	.then(() => console.log('MongoDB connected...'))
 	.catch((error) => console.log(error));
-
 
 app.set('view engine', 'ejs');
 app.use(expressEjsLayout);
@@ -69,6 +67,7 @@ app.use((req, res, next) => {
 	next();
 });
 
+//the routes
 app.use('/dashboard', dashboardRoute);
 app.use('/user', userRoute);
 app.use('/room', roomRoute);
@@ -76,6 +75,7 @@ app.use('/', index);
 app.use('/chatroom', chatRoomRoute);
 app.use('/api', api);
 
+//the web socket part
 io.on('connection', (socket) => {
 	socket.on('joinRoom', ({ username, room }) => {
 		const user = userJoin(socket.id, username, room);
