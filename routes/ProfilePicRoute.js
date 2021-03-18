@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
-const { v4: uuidv4 } = require('uuid');
 const UserModel = require('../models/user');
 
 const storage = multer.diskStorage({
@@ -10,7 +9,7 @@ const storage = multer.diskStorage({
 	filename: (req, file, callback) => {
 		callback(
 			null,
-			file.fieldname + '-' + uuidv4() + path.extname(file.originalname)
+			file.fieldname + '-' + req.user._id + path.extname(file.originalname)
 		);
 	},
 });
@@ -54,10 +53,12 @@ router.post('/update', (req, res) => {
 					msg: 'Error: No File Selected',
 				});
 			} else {
-				UserModel.findOneAndUpdate(
-					{ _id },
-					{ profilepic: `uploads/${req.file.filename}` }
-				);
+				const profilepic = `/uploads/${req.file.filename}`;
+				UserModel.findOneAndUpdate({ _id }, { profilepic }, (error) => {
+					if (error) {
+						console.log(error);
+					}
+				});
 				res.redirect('/dashboard/profile');
 			}
 		}

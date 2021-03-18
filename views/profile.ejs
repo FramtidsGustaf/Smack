@@ -59,9 +59,16 @@
 			<input type="submit" value="Save changes" class="btn btn-primary mt-2" />
 		</fieldset>
 	</form>
-	<a href="/profilepic" class="btn btn-danger mt-2 mb-4"
-		>Update or add profilepic</a
-	>
+	<div class="container d-flex justify-content-between align-items-center mb-4">
+		<a href="/profilepic" class="btn btn-danger h-25"
+			>Update or add profilepic</a
+		>
+		<img
+			src="<%=user.profilepic%>"
+			alt="profilepic"
+			class="w-25 rounded-circle"
+		/>
+	</div>
 </div>
 
 <!--Add picture will be available in next update will cost Bitcoins-->

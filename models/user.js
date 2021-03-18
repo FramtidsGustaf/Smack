@@ -27,7 +27,10 @@ const UserSchema = new Schema({
 		required: true,
 		maxlength: 100,
 	},
-	profilepic: String,
+	profilepic: {
+		type: String,
+		default: 'public/uploads/default.jpg',
+	},
 	isOnline: {
 		type: Boolean,
 		default: false,
