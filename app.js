@@ -104,7 +104,7 @@ io.on('connection', (socket) => {
 				}
 				msg.author = currentUser._id;
 				const newMessage = new MessageModel(msg);
-				//this needs to be fixed urgent!
+				
 				RoomModel.findOneAndUpdate(
 					{ _id: user.room },
 					{ $push: { messages: newMessage._id } },
