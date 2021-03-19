@@ -1,3 +1,42 @@
+<button
+	type="button"
+	class="btn btn-primary"
+	data-bs-toggle="modal"
+	data-bs-target="#exampleModal"
+	id="get-room-members"
+	value="<%=room._id%>"
+>
+	View Users
+</button>
+
+<div
+	class="modal fade"
+	id="exampleModal"
+	tabindex="-1"
+	aria-labelledby="exampleModalLabel"
+	aria-hidden="true"
+>
+	<div class="modal-dialog modal-dialog-scrollable">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Users In This Room</h5>
+				<button
+					type="button"
+					class="btn-close"
+					data-bs-dismiss="modal"
+					aria-label="Close"
+				></button>
+			</div>
+			<div class="modal-body" id="modal-content"></div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+					Close
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <h1><%= room.name %></h1>
 
 <% if(room.admins.includes(user._id)) {%>
@@ -7,18 +46,6 @@
 <%}%>
 
 <input hidden id="room-id" value="<%= room._id %>" />
-
-<div class="h-50 position-absolute top-15 start-0 w-10">
-	<div class="list-group" id="user-list"></div>
-</div>
-
-<button
-	id="get-room-members"
-	value="<%=room._id%>"
-	class="btn btn-success position-absolute top-15 start-0"
->
-	View Users
-</button>
 
 <input value="<%=user.username%>" hidden id="username" />
 <div class="bg-white h-75 overflow-auto" id="chat-container">

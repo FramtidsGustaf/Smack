@@ -13,10 +13,16 @@ router.get('/signin', (req, res) => {
 });
 
 router.get('/signout', (req, res) => {
+	const { user } = req;
 	req.logout();
 	req.flash('success_msg', 'Signed Out');
+	UserModel.updateOne({ _id: user._id }, { isOnline: false }, (error) => {
+		if (error) {
+			console.log(error);
+		}
+	});
 	res.redirect('/');
-})
+});
 
 router.post('/signup', (req, res) => {
 	const { first_name, last_name, username, email, password } = req.body;
@@ -66,7 +72,5 @@ router.post('/signin', (req, res, next) => {
 		failureFlash: true,
 	})(req, res, next);
 });
-
-
 
 module.exports = router;

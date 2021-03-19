@@ -6,11 +6,18 @@ const RoomModel = require('../models/room');
 
 router.get('/', ensureAuthenticated, (req, res) => {
 	const { user } = req;
-	RoomModel.find({ $or: [{ isPrivate: false }, { users: { $all: [user._id] } }] }).exec((error, rooms) => {
+	RoomModel.find({
+		$or: [{ isPrivate: false }, { users: { $all: [user._id] } }],
+	}).exec((error, rooms) => {
 		res.render('dashboard', {
 			user,
 			rooms,
 		});
+	});
+	UserModel.updateOne({ _id: user._id }, { isOnline: true }, (error) => {
+		if (error) {
+			console.log(error);
+		}
 	});
 });
 

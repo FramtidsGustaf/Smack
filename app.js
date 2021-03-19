@@ -36,7 +36,11 @@ const api = require('./routes/api');
 const profilePicRoute = require('./routes/ProfilePicRoute');
 
 mongoose
-	.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+	.connect(process.env.DB_URI, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+		useFindAndModify: false,
+	})
 	.then(() => console.log('MongoDB connected...'))
 	.catch((error) => console.log(error));
 
@@ -75,14 +79,13 @@ app.use('/room', roomRoute);
 app.use('/', index);
 app.use('/chatroom', chatRoomRoute);
 app.use('/api', api);
-app.use('/profilepic', profilePicRoute)
+app.use('/profilepic', profilePicRoute);
 
 //the web socket part
 io.on('connection', (socket) => {
 	socket.on('joinRoom', ({ username, room }) => {
 		const user = userJoin(socket.id, username, room);
 		socket.join(user.room);
-
 		io.to(user.room).emit('roomUsers', {
 			users: getRoomUsers(user.room),
 		});
@@ -106,7 +109,7 @@ io.on('connection', (socket) => {
 				}
 				msg.author = currentUser._id;
 				const newMessage = new MessageModel(msg);
-				
+
 				RoomModel.findOneAndUpdate(
 					{ _id: user.room },
 					{ $push: { messages: newMessage._id } },
@@ -114,7 +117,8 @@ io.on('connection', (socket) => {
 						if (error) {
 							console.log(error);
 						}
-					});
+					}
+				);
 
 				newMessage.save((error, result) => {
 					if (error) {

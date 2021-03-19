@@ -2,10 +2,15 @@ document.addEventListener('DOMContentLoaded', (e) => {
 	const deleteButton = document.getElementById('delete-button');
 	const room = document.getElementById('room-id').value;
 	const username = document.getElementById('username').value;
-	const userList = document.getElementById('user-list');
 	const chatContainer = document.getElementById('chat-container');
 	const messageForm = document.getElementById('message-form');
 	const getRoomMembers = document.getElementById('get-room-members');
+	const modalContent = document.getElementById('modal-content');
+	// const myModal = document.getElementById('myModal');
+	// const myInput = document.getElementById('myInput');
+	// myModal.addEventListener('shown.bs.modal', function () {
+	// 	myInput.focus();
+	// });
 
 	const scrollToBottom = () => {
 		chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -23,10 +28,16 @@ document.addEventListener('DOMContentLoaded', (e) => {
 		});
 
 	getRoomMembers.addEventListener('click', async () => {
+		modalContent.innerHTML = '';
 		const _id = getRoomMembers.value;
 		const response = await fetch(`/api/roommembers/${_id}`);
-		const data = await response.json();
-		console.log(data);
+		const members = await response.json();
+		for (member of members) {
+			const p = document.createElement('p');
+			p.id = member._id;
+			p.textContent = member.username;
+			modalContent.append(p);
+		}
 	});
 
 	const socket = io();
@@ -68,14 +79,12 @@ document.addEventListener('DOMContentLoaded', (e) => {
 		message.focus();
 	});
 
-	socket.on('roomUsers', (users) => {
-		console.log(users);
-		// userList.innerHTML = '';
-		// for (user of users.users) {
-		// 	const currentUser = document.createElement('p');
-		// 	currentUser.textContent = user.username;
-		// 	currentUser.classList.add('list-group-item');
-		// 	userList.appendChild(currentUser);
-		// }
-	});
+	// socket.on('roomUsers', (users) => {
+	// 	console.log(users);
+
+	// 	for (user of users.users) {
+	// 		const userText = document.getElementById(user._id);
+	// 		userText.classList.add('text-success');
+	// 	}
+	// });
 });

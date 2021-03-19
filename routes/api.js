@@ -16,7 +16,7 @@ router.get('/allbutme', (req, res) => {
 
 router.get('/roommembers/:_id', (req, res) => {
 	const _id = req.params._id;
-	RoomModel.find({ _id })
+	RoomModel.findOne({ _id })
 		.populate('users')
 		.exec((error, room) => {
 			if (room) {

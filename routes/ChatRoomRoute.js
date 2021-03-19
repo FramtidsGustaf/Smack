@@ -13,7 +13,6 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
 			if (error) {
 				console.log(error);
 			}
-			console.log(room);
 			const { messages } = room;
 			res.render('chatroom', {
 				user,
