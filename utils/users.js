@@ -1,5 +1,3 @@
-const user = require('../models/user');
-
 const users = [];
 
 const userJoin = (id, username, room) => {

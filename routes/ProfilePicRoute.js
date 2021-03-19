@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const UserModel = require('../models/user');
+const { ensureAuthenticated } = require('../config/auth');
 
 const storage = multer.diskStorage({
 	destination: './public/uploads/',
@@ -36,31 +37,30 @@ const checkFileType = (file, callback) => {
 	}
 };
 
-router.get('/', (req, res) => {
+router.get('/', ensureAuthenticated, (req, res) => {
 	res.render('profilepic');
 });
 
-router.post('/update', (req, res) => {
+router.post('/update', ensureAuthenticated, (req, res) => {
 	const { _id } = req.user;
 	upload(req, res, (error) => {
 		if (error) {
 			res.render('profilepic', {
 				msg: error,
 			});
+		}
+		if (req.file) {
+			const profilepic = `/uploads/${req.file.filename}`;
+			UserModel.findOneAndUpdate({ _id }, { profilepic }, (error) => {
+				if (error) {
+					console.log(error);
+				}
+			});
+			res.redirect('/dashboard/profile');
 		} else {
-			if (!req.file) {
-				res.render('profilepic', {
-					msg: 'Error: No File Selected',
-				});
-			} else {
-				const profilepic = `/uploads/${req.file.filename}`;
-				UserModel.findOneAndUpdate({ _id }, { profilepic }, (error) => {
-					if (error) {
-						console.log(error);
-					}
-				});
-				res.redirect('/dashboard/profile');
-			}
+			res.render('profilepic', {
+				msg: 'Error: No File Selected',
+			});
 		}
 	});
 });

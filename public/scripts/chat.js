@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
 	const userList = document.getElementById('user-list');
 	const chatContainer = document.getElementById('chat-container');
 	const messageForm = document.getElementById('message-form');
+	const getRoomMembers = document.getElementById('get-room-members');
 
 	const scrollToBottom = () => {
 		chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -20,6 +21,13 @@ document.addEventListener('DOMContentLoaded', (e) => {
 				window.location.href = '/dashboard';
 			});
 		});
+
+	getRoomMembers.addEventListener('click', async () => {
+		const _id = getRoomMembers.value;
+		const response = await fetch(`/api/roommembers/${_id}`);
+		const data = await response.json();
+		console.log(data);
+	});
 
 	const socket = io();
 
@@ -61,12 +69,13 @@ document.addEventListener('DOMContentLoaded', (e) => {
 	});
 
 	socket.on('roomUsers', (users) => {
-		userList.innerHTML = '';
-		for (user of users.users) {
-			const currentUser = document.createElement('p');
-			currentUser.textContent = user.username;
-			currentUser.classList.add('list-group-item');
-			userList.appendChild(currentUser);
-		}
+		console.log(users);
+		// userList.innerHTML = '';
+		// for (user of users.users) {
+		// 	const currentUser = document.createElement('p');
+		// 	currentUser.textContent = user.username;
+		// 	currentUser.classList.add('list-group-item');
+		// 	userList.appendChild(currentUser);
+		// }
 	});
 });
