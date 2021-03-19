@@ -14,11 +14,11 @@ router.get('/', ensureAuthenticated, (req, res) => {
 			rooms,
 		});
 	});
-	UserModel.updateOne({ _id: user._id }, { isOnline: true }, (error) => {
-		if (error) {
-			console.log(error);
-		}
-	});
+	// UserModel.updateOne({ _id: user._id }, { isOnline: true }, (error) => {
+	// 	if (error) {
+	// 		console.log(error);
+	// 	}
+	// });
 });
 
 router.get('/profile', ensureAuthenticated, (req, res) => {

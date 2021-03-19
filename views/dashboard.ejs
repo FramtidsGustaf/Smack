@@ -7,14 +7,22 @@
 
 <div class="h-50 position-absolute top-15 start-0 w-10">
 	<%if(rooms) {%>
-		<div class="list-group">
-			<% for(room of rooms) {%>
-				<a href="/chatroom/<%= room._id %>" class="list-group-item list-group-item-action" aria-current="true">
-					<%= room.name %>
-				</a>
-				<%}%>
-		</div>
+	<div class="list-group">
+		<% for(room of rooms) {%>
+		<a
+			href="/chatroom/<%= room._id %>"
+			class="list-group-item list-group-item-action"
+			aria-current="true"
+		>
+			<%= room.name %>
+		</a>
 		<%}%>
-			<a class="list-group-item list-group-item-action bg-primary text-dark fs-3 rounded-pill mt-1"
-				href="/room/roomform">+</a>
+	</div>
+	<%}%>
+	<a
+		class="list-group-item list-group-item-action bg-primary text-dark fs-3 rounded-pill mt-1"
+		href="/room/roomform"
+		>+</a
+	>
 </div>
+<script src="/scripts/dashboard.js"></script>

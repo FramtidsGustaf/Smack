@@ -23,15 +23,8 @@ const userLeave = (id) => {
 	}
 };
 
-const getRoomUsers = (room) => {
-	return users.filter((user) => {
-		return user.room === room;
-	});
-};
-
 module.exports = {
 	userJoin,
 	getCurrentUser,
 	userLeave,
-	getRoomUsers,
 };

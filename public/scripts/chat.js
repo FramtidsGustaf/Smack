@@ -6,14 +6,32 @@ document.addEventListener('DOMContentLoaded', (e) => {
 	const messageForm = document.getElementById('message-form');
 	const getRoomMembers = document.getElementById('get-room-members');
 	const modalContent = document.getElementById('modal-content');
-	// const myModal = document.getElementById('myModal');
-	// const myInput = document.getElementById('myInput');
-	// myModal.addEventListener('shown.bs.modal', function () {
-	// 	myInput.focus();
-	// });
 
 	const scrollToBottom = () => {
 		chatContainer.scrollTop = chatContainer.scrollHeight;
+	};
+
+	const getUsersStatus = async () => {
+		modalContent.innerHTML = '';
+		const _id = getRoomMembers.value;
+		const response = await fetch(`/api/roommembers/${_id}`);
+		const members = await response.json();
+
+		members.sort((a, b) => {
+			return b.isOnline - a.isOnline;
+		});
+
+		for (member of members) {
+			const p = document.createElement('p');
+			p.id = member._id;
+			p.textContent = member.username;
+			if (member.isOnline) {
+				p.classList.add('text-online');
+			} else {
+				p.classList.add('text-offline');
+			}
+			modalContent.append(p);
+		}
 	};
 
 	scrollToBottom();
@@ -27,18 +45,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
 			});
 		});
 
-	getRoomMembers.addEventListener('click', async () => {
-		modalContent.innerHTML = '';
-		const _id = getRoomMembers.value;
-		const response = await fetch(`/api/roommembers/${_id}`);
-		const members = await response.json();
-		for (member of members) {
-			const p = document.createElement('p');
-			p.id = member._id;
-			p.textContent = member.username;
-			modalContent.append(p);
-		}
-	});
+	getRoomMembers.addEventListener('click', getUsersStatus);
 
 	const socket = io();
 
@@ -79,12 +86,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
 		message.focus();
 	});
 
-	// socket.on('roomUsers', (users) => {
-	// 	console.log(users);
-
-	// 	for (user of users.users) {
-	// 		const userText = document.getElementById(user._id);
-	// 		userText.classList.add('text-success');
-	// 	}
-	// });
+	socket.on('roomUsers', () => {
+		getUsersStatus();
+	});
 });

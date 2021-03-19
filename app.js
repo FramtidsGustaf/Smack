@@ -7,7 +7,6 @@ const {
 	userJoin,
 	getCurrentUser,
 	userLeave,
-	getRoomUsers,
 } = require('./utils/users');
 
 const moment = require('moment');
@@ -25,6 +24,7 @@ const app = express();
 const port = process.env.port || 3000;
 
 const server = require('http').createServer(app);
+
 const io = require('socket.io')(server);
 
 const userRoute = require('./routes/UserRoute');
@@ -81,19 +81,26 @@ app.use('/chatroom', chatRoomRoute);
 app.use('/api', api);
 app.use('/profilepic', profilePicRoute);
 
-//the web socket part
+// the web socket part
 io.on('connection', (socket) => {
 	socket.on('joinRoom', ({ username, room }) => {
 		const user = userJoin(socket.id, username, room);
+		UserModel.updateOne(
+			{ username: user.username },
+			{ isOnline: true },
+			(error) => {
+				if (error) {
+					console.log(error);
+				}
+			}
+		);
 		socket.join(user.room);
-		io.to(user.room).emit('roomUsers', {
-			users: getRoomUsers(user.room),
-		});
+
+		io.to(user.room).emit('roomUsers');
 	});
 
 	socket.on('chatMessage', (message) => {
 		const user = getCurrentUser(socket.id);
-
 		const msg = {
 			message,
 			time: moment().format('YYYY MMMM D, HH:mm'),
@@ -131,12 +138,19 @@ io.on('connection', (socket) => {
 
 	socket.on('disconnect', () => {
 		const user = userLeave(socket.id);
-		const { room, username } = user;
+
+		UserModel.updateOne(
+			{ username: user.username },
+			{ isOnline: false },
+			(error) => {
+				if (error) {
+					console.log(error);
+				}
+			}
+		);
 
 		if (user) {
-			io.to(user.room).emit('roomUsers', {
-				users: getRoomUsers(user.room),
-			});
+			io.to(user.room).emit('roomUsers');
 		}
 	});
 });

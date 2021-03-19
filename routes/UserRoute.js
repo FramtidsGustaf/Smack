@@ -13,6 +13,7 @@ router.get('/signin', (req, res) => {
 });
 
 router.get('/signout', (req, res) => {
+	console.log('hej då!');
 	const { user } = req;
 	req.logout();
 	req.flash('success_msg', 'Signed Out');
