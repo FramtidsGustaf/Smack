@@ -22,15 +22,15 @@ document.addEventListener('DOMContentLoaded', (e) => {
 		});
 
 		for (member of members) {
-			const p = document.createElement('p');
-			p.id = member._id;
-			p.textContent = member.username;
+			const a = document.createElement('a');
+			a.textContent = member.username;
+			a.href = `/profile/${member.username}`;
 			if (member.isOnline) {
-				p.classList.add('text-online');
+				a.classList.add('text-online', 'd-block');
 			} else {
-				p.classList.add('text-offline');
+				a.classList.add('text-offline', 'd-block');
 			}
-			modalContent.append(p);
+			modalContent.append(a);
 		}
 	};
 
@@ -38,11 +38,13 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
 	deleteButton &&
 		deleteButton.addEventListener('click', () => {
-			fetch(`/chatroom/deleteroom/${room}`, {
-				method: 'DELETE',
-			}).then((res) => {
-				window.location.href = '/dashboard';
-			});
+			if (confirm('Are You Sure?')) {
+				fetch(`/chatroom/deleteroom/${room}`, {
+					method: 'DELETE',
+				}).then((res) => {
+					window.location.href = '/dashboard';
+				});
+			}
 		});
 
 	getRoomMembers.addEventListener('click', getUsersStatus);

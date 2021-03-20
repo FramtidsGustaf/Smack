@@ -1,0 +1,72 @@
+<%- include ('./partials/messages') %>
+
+<div
+	class="container col-3 border border-primary position-absolute top-50 start-50 translate-middle"
+>
+	<form method="post" action="/dashboard/profile/update">
+		<fieldset>
+			<legend>Update Profile</legend>
+
+			<div class="form-group">
+				<label for="first_name">First Name</label>
+				<input
+					name="first_name"
+					autocomplete="off"
+					class="form-control"
+					required
+					id="first_name"
+					value="<%= typeof user.first_name != 'undefined' ? user.first_name : '' %>"
+				/>
+			</div>
+
+			<div class="form-group">
+				<label for="last_name">Last Name</label>
+				<input
+					name="last_name"
+					autocomplete="off"
+					class="form-control"
+					required
+					id="last_name"
+					value="<%= typeof user.last_name != 'undefined' ? user.last_name : '' %>"
+				/>
+			</div>
+
+			<div class="form-group">
+				<label for="username">Username</label>
+				<input
+					name="username"
+					autocomplete="off"
+					class="form-control"
+					required
+					id="username"
+					value="<%= typeof user.username != 'undefined' ? user.username : '' %>"
+				/>
+			</div>
+
+			<div class="form-group">
+				<label for="email">Email</label>
+				<input
+					type="email"
+					name="email"
+					class="form-control"
+					autocomplete="off"
+					required
+					id="email"
+					value="<%= typeof user.email != 'undefined' ? user.email : '' %>"
+				/>
+			</div>
+
+			<input type="submit" value="Save changes" class="btn btn-primary mt-2" />
+		</fieldset>
+	</form>
+	<div class="container d-flex justify-content-between align-items-center mb-4">
+		<a href="/profilepic" class="btn btn-danger h-25"
+			>Update or add profilepic</a
+		>
+		<img
+			src="<%=user.profilepic%>"
+			alt="profilepic"
+			class="w-25 rounded-circle"
+		/>
+	</div>
+</div>

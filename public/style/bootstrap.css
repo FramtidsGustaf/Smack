@@ -7294,6 +7294,11 @@ button.bg-dark:focus {
 	background-color: #021014 !important;
 }
 
+.bg-online {
+	background-color: lightgreen;
+}
+
+
 .bg-gradient-primary {
 	background: #b58900 linear-gradient(180deg, #9a7b08, #b58900) repeat-x !important;
 }

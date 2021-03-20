@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const UserModel = require('../models/user');
 const passport = require('passport');
+const updateUserStatus = require('../utils/status');
 
 router.get('/userform', (req, res) => {
 	res.render('userform');
@@ -13,15 +14,17 @@ router.get('/signin', (req, res) => {
 });
 
 router.get('/signout', (req, res) => {
-	console.log('hej då!');
 	const { user } = req;
 	req.logout();
 	req.flash('success_msg', 'Signed Out');
-	UserModel.updateOne({ _id: user._id }, { isOnline: false }, (error) => {
-		if (error) {
-			console.log(error);
-		}
-	});
+
+	updateUserStatus(true, user._id, false);
+
+	// UserModel.updateOne({ _id: user._id }, { isOnline: false }, (error) => {
+	// 	if (error) {
+	// 		console.log(error);
+	// 	}
+	// });
 	res.redirect('/');
 });
 

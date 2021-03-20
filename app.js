@@ -3,11 +3,9 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const expressEjsLayout = require('express-ejs-layouts');
 const path = require('path');
-const {
-	userJoin,
-	getCurrentUser,
-	userLeave,
-} = require('./utils/users');
+
+const updateUserStatus = require('./utils/status');
+const { userJoin, getCurrentUser, userLeave } = require('./utils/users');
 
 const moment = require('moment');
 
@@ -34,6 +32,7 @@ const chatRoomRoute = require('./routes/ChatRoomRoute');
 const index = require('./routes/index');
 const api = require('./routes/api');
 const profilePicRoute = require('./routes/ProfilePicRoute');
+const profileRoute = require('./routes/ProfileRoute');
 
 mongoose
 	.connect(process.env.DB_URI, {
@@ -80,20 +79,25 @@ app.use('/', index);
 app.use('/chatroom', chatRoomRoute);
 app.use('/api', api);
 app.use('/profilepic', profilePicRoute);
+app.use('/profile', profileRoute);
 
 // the web socket part
 io.on('connection', (socket) => {
 	socket.on('joinRoom', ({ username, room }) => {
 		const user = userJoin(socket.id, username, room);
-		UserModel.updateOne(
-			{ username: user.username },
-			{ isOnline: true },
-			(error) => {
-				if (error) {
-					console.log(error);
-				}
-			}
-		);
+
+		updateUserStatus(false, user.username, true);
+
+		// UserModel.updateOne(
+		// 	{ username: user.username },
+		// 	{ isOnline: true },
+		// 	(error) => {
+		// 		if (error) {
+		// 			console.log(error);
+		// 		}
+		// 	}
+		// );
+
 		socket.join(user.room);
 
 		io.to(user.room).emit('roomUsers');
@@ -117,7 +121,7 @@ io.on('connection', (socket) => {
 				msg.author = currentUser._id;
 				const newMessage = new MessageModel(msg);
 
-				RoomModel.findOneAndUpdate(
+				RoomModel.updateOne(
 					{ _id: user.room },
 					{ $push: { messages: newMessage._id } },
 					(error) => {
@@ -139,15 +143,17 @@ io.on('connection', (socket) => {
 	socket.on('disconnect', () => {
 		const user = userLeave(socket.id);
 
-		UserModel.updateOne(
-			{ username: user.username },
-			{ isOnline: false },
-			(error) => {
-				if (error) {
-					console.log(error);
-				}
-			}
-		);
+		updateUserStatus(false, user.username, false);
+
+		// UserModel.updateOne(
+		// 	{ username: user.username },
+		// 	{ isOnline: false },
+		// 	(error) => {
+		// 		if (error) {
+		// 			console.log(error);
+		// 		}
+		// 	}
+		// );
 
 		if (user) {
 			io.to(user.room).emit('roomUsers');

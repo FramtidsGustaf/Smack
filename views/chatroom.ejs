@@ -1,6 +1,37 @@
+
+<div
+class="modal fade"
+id="exampleModal"
+tabindex="-1"
+aria-labelledby="exampleModalLabel"
+aria-hidden="true"
+>
+<div class="modal-dialog modal-dialog-scrollable">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Users In This Room</h5>
+			<button
+			type="button"
+			class="btn-close"
+			data-bs-dismiss="modal"
+			aria-label="Close"
+			></button>
+		</div>
+		<div class="modal-body" id="modal-content"></div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+				Close
+			</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<h2 class="d-inline"><%= room.name %></h2>
+
 <button
 	type="button"
-	class="btn btn-primary"
+	class="btn btn-primary d-inline m-2"
 	data-bs-toggle="modal"
 	data-bs-target="#exampleModal"
 	id="get-room-members"
@@ -9,39 +40,9 @@
 	View Users
 </button>
 
-<div
-	class="modal fade"
-	id="exampleModal"
-	tabindex="-1"
-	aria-labelledby="exampleModalLabel"
-	aria-hidden="true"
->
-	<div class="modal-dialog modal-dialog-scrollable">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Users In This Room</h5>
-				<button
-					type="button"
-					class="btn-close"
-					data-bs-dismiss="modal"
-					aria-label="Close"
-				></button>
-			</div>
-			<div class="modal-body" id="modal-content"></div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-					Close
-				</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<h1><%= room.name %></h1>
-
 <% if(room.admins.includes(user._id)) {%>
 
-<button id="delete-button">Delete this room</button>
+<button class="btn btn-warning d-inline" id="delete-button">Delete this room</button>
 
 <%}%>
 
