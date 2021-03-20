@@ -1,27 +1,82 @@
+<% if(room.admins.includes(user._id)) {%>
 
 <div
-class="modal fade"
-id="exampleModal"
-tabindex="-1"
-aria-labelledby="exampleModalLabel"
-aria-hidden="true"
+	class="modal fade"
+	id="settingsModal"
+	tabindex="-1"
+	aria-labelledby="exampleModalLabel"
+	aria-hidden="true"
 >
-<div class="modal-dialog modal-dialog-scrollable">
-	<div class="modal-content">
-		<div class="modal-header">
-			<h5 class="modal-title" id="exampleModalLabel">Users In This Room</h5>
-			<button
-			type="button"
-			class="btn-close"
-			data-bs-dismiss="modal"
-			aria-label="Close"
-			></button>
+	<div class="modal-dialog modal-dialog-scrollable">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Settings</h5>
+				<button
+					type="button"
+					class="btn-close"
+					data-bs-dismiss="modal"
+					aria-label="Close"
+				></button>
+			</div>
+			<div class="modal-body">
+				<form>
+					<fieldset>
+						<div class="form-group">
+							<label for="room-name">Room Name</label>
+							<input
+								class="form-control"
+								id="room-name"
+								aria-describedby="emailHelp"
+								placeholder="Enter Room Name"
+								value="<%= room.name%>"
+							/>
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Members</th>
+										<th>Admin</th>
+									</tr>
+								</thead>
+								<tbody id="user-admin-table"></tbody>
+							</table>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary">Save changes</button>
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+					Close
+				</button>
+			</div>
 		</div>
-		<div class="modal-body" id="modal-content"></div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-				Close
-			</button>
+	</div>
+</div>
+
+<%}%>
+<div
+	class="modal fade"
+	id="usersModal"
+	tabindex="-1"
+	aria-labelledby="exampleModalLabel"
+	aria-hidden="true"
+>
+	<div class="modal-dialog modal-dialog-scrollable">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Users In This Room</h5>
+				<button
+					type="button"
+					class="btn-close"
+					data-bs-dismiss="modal"
+					aria-label="Close"
+				></button>
+			</div>
+			<div class="modal-body" id="modal-content"></div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+					Close
+				</button>
 			</div>
 		</div>
 	</div>
@@ -31,9 +86,9 @@ aria-hidden="true"
 
 <button
 	type="button"
-	class="btn btn-primary d-inline m-2"
+	class="btn btn-primary d-inline m-1"
 	data-bs-toggle="modal"
-	data-bs-target="#exampleModal"
+	data-bs-target="#usersModal"
 	id="get-room-members"
 	value="<%=room._id%>"
 >
@@ -42,7 +97,20 @@ aria-hidden="true"
 
 <% if(room.admins.includes(user._id)) {%>
 
-<button class="btn btn-warning d-inline" id="delete-button">Delete this room</button>
+<button class="btn btn-warning d-inline m-1" id="delete-button">
+	Delete this room
+</button>
+
+<button
+	type="button"
+	class="btn btn-success d-inline m-1"
+	data-bs-toggle="modal"
+	data-bs-target="#settingsModal"
+	id="room-settings"
+	value="<%=room._id%>"
+>
+	Settings
+</button>
 
 <%}%>
 

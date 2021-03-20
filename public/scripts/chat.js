@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
 	const messageForm = document.getElementById('message-form');
 	const getRoomMembers = document.getElementById('get-room-members');
 	const modalContent = document.getElementById('modal-content');
+	const userAdminTable = document.getElementById('user-admin-table');
+	const roomSettings = document.getElementById('room-settings');
 
 	const scrollToBottom = () => {
 		chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -15,7 +17,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
 		modalContent.innerHTML = '';
 		const _id = getRoomMembers.value;
 		const response = await fetch(`/api/roommembers/${_id}`);
-		const members = await response.json();
+		let members = await response.json();
+		members = members.users;
 
 		members.sort((a, b) => {
 			return b.isOnline - a.isOnline;
@@ -34,6 +37,39 @@ document.addEventListener('DOMContentLoaded', (e) => {
 		}
 	};
 
+	const getUsersAndAdmins = async () => {
+		userAdminTable.innerHTML = '';
+		const _id = getRoomMembers.value;
+		const response = await fetch(`/api/roommembers/${_id}`);
+		data = await response.json();
+		const members = data.users;
+		const room = data.room;
+
+		for (member of members) {
+			const tr = document.createElement('tr');
+			const username = document.createElement('td');
+			const admin = document.createElement('td');
+			const label = document.createElement('label');
+			const checkadmin = document.createElement('input');
+
+			label.setAttribute('for', member._id);
+			label.textContent = member.username;
+			
+
+			checkadmin.type = 'checkbox';
+			checkadmin.value = member._id;
+
+			if (room.admins.includes(member._id)) {
+				checkadmin.checked = true;
+			}
+
+			username.append(label);
+			admin.append(checkadmin);
+			tr.append(username, admin);
+			userAdminTable.append(tr);
+		}
+	};
+
 	scrollToBottom();
 
 	deleteButton &&
@@ -46,6 +82,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
 				});
 			}
 		});
+
+	roomSettings && roomSettings.addEventListener('click', getUsersAndAdmins);
 
 	getRoomMembers.addEventListener('click', getUsersStatus);
 

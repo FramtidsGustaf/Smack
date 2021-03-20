@@ -22,11 +22,11 @@ router.get('/roommembers/:_id', (req, res) => {
 		.exec((error, room) => {
 			if (room) {
 				if (room.isPrivate) {
-					res.status(200).json(room.users);
+					res.status(200).json({users: room.users, room});
 				} else {
 					UserModel.find().exec((error, users) => {
 						if (users) {
-							res.status(200).json(users);
+							res.status(200).json({users, room});
 						} else {
 							res.status(404);
 						}
