@@ -1,5 +1,5 @@
 class Creator {
-	constructor(modalContent, userAdminTable, chatContainer) {
+	constructor() {
 		this._id = this.take('get-room-members').value;
 		this.modalContent = this.take('modal-content');
 		this.userAdminTable = this.take('user-admin-table');
