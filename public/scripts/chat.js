@@ -9,11 +9,43 @@ document.addEventListener('DOMContentLoaded', (e) => {
 	const modalContent = document.getElementById('modal-content');
 	const userAdminTable = document.getElementById('user-admin-table');
 	const roomSettings = document.getElementById('room-settings');
+	const saveSettingsButton = document.getElementById('save-settings-button');
+	const roomNameInput = document.getElementById('room-name');
 	const creator = new Creator();
 
 	const scrollToBottom = () => {
 		chatContainer.scrollTop = chatContainer.scrollHeight;
 	};
+
+	scrollToBottom();
+
+	saveSettingsButton &&
+		saveSettingsButton.addEventListener('click', () => {
+			const members = userAdminTable.childNodes;
+			const admins = [];
+			const name = roomNameInput.value;
+
+			for (const member of members) {
+				const check = member.childNodes[1].childNodes[0];
+				if (check.checked) {
+					admins.push(check.value);
+				}
+			}
+
+			fetch('/chatroom', {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					admins,
+					_id,
+					name,
+				}),
+			}).then((res) => {
+				window.location.href = `/chatroom/${_id}`;
+			});
+		});
 
 	/*--------------------Potetially oboslete---------------*/
 	// const getUsersStatus = async () => {
@@ -65,8 +97,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
 	// 	userAdminTable.append(tr);
 	// }
 	// };
-
-	scrollToBottom();
 
 	deleteButton &&
 		deleteButton.addEventListener('click', () => {
