@@ -4,7 +4,7 @@ require('dotenv').config();
 const expressEjsLayout = require('express-ejs-layouts');
 const path = require('path');
 
-const updateUserStatus = require('./utils/status');
+const userUpdater = require('./utils/userUpdater');
 const { userJoin, getCurrentUser, userLeave } = require('./utils/users');
 
 const moment = require('moment');
@@ -86,7 +86,7 @@ io.on('connection', (socket) => {
 	socket.on('joinRoom', ({ username, room }) => {
 		const user = userJoin(socket.id, username, room);
 
-		updateUserStatus(false, user.username, true);
+		userUpdater(false, user.username, 'isOnline', true);
 
 		socket.join(user.room);
 
@@ -110,7 +110,7 @@ io.on('connection', (socket) => {
 				}
 				msg.author = currentUser._id;
 				const newMessage = new MessageModel(msg);
-
+				
 				RoomModel.updateOne(
 					{ _id: user.room },
 					{ $push: { messages: newMessage._id } },
@@ -133,7 +133,7 @@ io.on('connection', (socket) => {
 	socket.on('disconnect', () => {
 		const user = userLeave(socket.id);
 
-		updateUserStatus(false, user.username, false);
+		userUpdater(false, user.username, 'isOnline', false);
 
 		if (user) {
 			io.to(user.room).emit('roomUsers');

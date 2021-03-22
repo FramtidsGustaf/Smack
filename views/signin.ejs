@@ -1,11 +1,10 @@
-<%- include ('./partials/messages') %>
-
 <div
 	class="container col-3 border border-primary position-absolute top-50 start-50 translate-middle"
 >
 	<form method="POST" action="/user/signin">
 		<fieldset>
 			<legend>Sign In</legend>
+			<%- include ('./partials/messages') %>
 			<div class="form-group">
 				<label for="email">Email</label>
 				<input

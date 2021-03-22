@@ -1,22 +1,22 @@
 class Creator {
 	constructor() {
-		this._id = this.#take('get-room-members').value;
-		this.modalContent = this.#take('modal-content');
-		this.userAdminTable = this.#take('user-admin-table');
-		this.chatContainer = this.#take('chat-container');
+		this._id = this.take('get-room-members').value;
+		this.modalContent = this.take('modal-content');
+		this.userAdminTable = this.take('user-admin-table');
+		this.chatContainer = this.take('chat-container');
 	}
 
 	//laziness drove me to it
-	#take(id) {
+	take(id) {
 		return document.getElementById(id);
 	}
 
-	#make(whatToMake) {
+	make(whatToMake) {
 		return document.createElement(whatToMake);
 	}
 
 	//private method that fetches all members in current room
-	async #fetcher() {
+	async fetcher() {
 		const response = await fetch(`/api/roommembers/${this._id}`);
 		const data = await response.json();
 		return data;
@@ -26,7 +26,7 @@ class Creator {
 	//green if they're online red if they're not
 	createUsersWithStatus() {
 		this.modalContent.innerHTML = '';
-		this.#fetcher().then((data) => {
+		this.fetcher().then((data) => {
 			const members = data.users;
 
 			members.sort((a, b) => {
@@ -34,7 +34,7 @@ class Creator {
 			});
 
 			for (const member of members) {
-				const a = this.#make('a');
+				const a = this.make('a');
 				a.textContent = member.username;
 				a.href = `/profile/${member.username}`;
 				if (member.isOnline) {
@@ -55,11 +55,11 @@ class Creator {
 			const room = data.room;
 
 			for (const member of members) {
-				const tr = this.#make('tr');
-				const username = this.#make('td');
-				const admin = this.#make('td');
-				const label = this.#make('label');
-				const checkadmin = this.#make('input');
+				const tr = this.make('tr');
+				const username = this.make('td');
+				const admin = this.make('td');
+				const label = this.make('label');
+				const checkadmin = this.make('input');
 
 				label.setAttribute('for', member._id);
 				label.textContent = member.username;
@@ -81,10 +81,10 @@ class Creator {
 
 	//building the message and outputs it
 	createNewMessage(message) {
-		const author = this.#make('span');
-		const time = this.#make('span');
-		const messageContent = this.#make('p');
-		const messageContainer = this.#make('div');
+		const author = this.make('span');
+		const time = this.make('span');
+		const messageContent = this.make('p');
+		const messageContainer = this.make('div');
 
 		author.classList.add('p-5');
 		messageContent.classList.add(

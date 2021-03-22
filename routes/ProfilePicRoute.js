@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
-const UserModel = require('../models/user');
 const { ensureAuthenticated } = require('../config/auth');
+const userUpdater = require('../utils/userUpdater');
 
 const storage = multer.diskStorage({
 	destination: './public/uploads/',
@@ -51,11 +51,8 @@ router.post('/update', ensureAuthenticated, (req, res) => {
 		}
 		if (req.file) {
 			const profilepic = `/uploads/${req.file.filename}`;
-			UserModel.findOneAndUpdate({ _id }, { profilepic }, (error) => {
-				if (error) {
-					console.log(error);
-				}
-			});
+
+			userUpdater(true, _id, 'updateProfilePic', profilepic);
 			res.redirect('/dashboard/profile');
 		} else {
 			res.render('profilepic', {

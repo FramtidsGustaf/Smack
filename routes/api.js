@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const UserModel = require('../models/user');
 const RoomModel = require('../models/room');
-const updateUserStatus = require('../utils/status');
+const userUpdater = require('../utils/userUpdater');
 
 router.get('/allbutme', (req, res) => {
 	const { user } = req;
@@ -41,13 +41,13 @@ router.get('/roommembers/:_id', (req, res) => {
 router.post('/closingwindow', (req, res) => {
 	const { user } = req;
 
-	updateUserStatus(true, user._id, false, res);
+	userUpdater(true, user._id, 'isOnline', false, res);
 });
 
 router.post('/settoonline', (req, res) => {
 	const { user } = req;
 
-	updateUserStatus(true, user._id, true, res);
+	userUpdater(true, user._id, 'isOnline', true, res);
 });
 
 module.exports = router;
