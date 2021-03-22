@@ -89,7 +89,8 @@ class Creator {
 		author.classList.add('p-5');
 		messageContent.classList.add(
 			'mt-1',
-			'bg-danger',
+			'bg-info',
+			'text-dark',
 			'p-3',
 			'rounded-pill',
 			'm-1'

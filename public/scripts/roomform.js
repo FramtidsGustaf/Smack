@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
     let isFetched = false;
     let users;
 
-
     //public/private switch
     privateSwitch.addEventListener('click', async (e) => {
         let label = 'Public Room';

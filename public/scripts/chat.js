@@ -78,11 +78,12 @@ document.addEventListener('DOMContentLoaded', (e) => {
 	messageForm.addEventListener('submit', (e) => {
 		e.preventDefault();
 
-		const message = e.target.elements.message;
+		let message = e.target.elements.message;
 
-		socket.emit('chatMessage', message.value);
-
-		message.value = '';
+		if (message.value) {
+			socket.emit('chatMessage', message.value);
+			message.value = '';
+		}
 		message.focus();
 	});
 
