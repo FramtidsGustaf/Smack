@@ -20,11 +20,6 @@ router.get('/signout', (req, res) => {
 
 	updateUserStatus(true, user._id, false);
 
-	// UserModel.updateOne({ _id: user._id }, { isOnline: false }, (error) => {
-	// 	if (error) {
-	// 		console.log(error);
-	// 	}
-	// });
 	res.redirect('/');
 });
 

@@ -88,16 +88,6 @@ io.on('connection', (socket) => {
 
 		updateUserStatus(false, user.username, true);
 
-		// UserModel.updateOne(
-		// 	{ username: user.username },
-		// 	{ isOnline: true },
-		// 	(error) => {
-		// 		if (error) {
-		// 			console.log(error);
-		// 		}
-		// 	}
-		// );
-
 		socket.join(user.room);
 
 		io.to(user.room).emit('roomUsers');
@@ -144,16 +134,6 @@ io.on('connection', (socket) => {
 		const user = userLeave(socket.id);
 
 		updateUserStatus(false, user.username, false);
-
-		// UserModel.updateOne(
-		// 	{ username: user.username },
-		// 	{ isOnline: false },
-		// 	(error) => {
-		// 		if (error) {
-		// 			console.log(error);
-		// 		}
-		// 	}
-		// );
 
 		if (user) {
 			io.to(user.room).emit('roomUsers');

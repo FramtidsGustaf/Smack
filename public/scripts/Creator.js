@@ -1,24 +1,32 @@
 class Creator {
 	constructor() {
-		this._id = this.take('get-room-members').value;
-		this.modalContent = this.take('modal-content');
-		this.userAdminTable = this.take('user-admin-table');
-		this.chatContainer = this.take('chat-container');
+		this._id = this.#take('get-room-members').value;
+		this.modalContent = this.#take('modal-content');
+		this.userAdminTable = this.#take('user-admin-table');
+		this.chatContainer = this.#take('chat-container');
 	}
 
-	take(id) {
-    return document.getElementById(id);
-  }
+	//laziness drove me to it
+	#take(id) {
+		return document.getElementById(id);
+	}
 
-	async fetcher() {
+	#make(whatToMake) {
+		return document.createElement(whatToMake);
+	}
+
+	//private method that fetches all members in current room
+	async #fetcher() {
 		const response = await fetch(`/api/roommembers/${this._id}`);
 		const data = await response.json();
 		return data;
 	}
 
+	//takes all members and outputs them in a modal
+	//green if they're online red if they're not
 	createUsersWithStatus() {
 		this.modalContent.innerHTML = '';
-		this.fetcher().then((data) => {
+		this.#fetcher().then((data) => {
 			const members = data.users;
 
 			members.sort((a, b) => {
@@ -26,7 +34,7 @@ class Creator {
 			});
 
 			for (const member of members) {
-				const a = document.createElement('a');
+				const a = this.#make('a');
 				a.textContent = member.username;
 				a.href = `/profile/${member.username}`;
 				if (member.isOnline) {
@@ -39,18 +47,19 @@ class Creator {
 		});
 	}
 
+	//creates the content of the settings modal that's only visible for the admins
 	createUsersAndAdmins() {
 		this.userAdminTable.innerHTML = '';
-		this.fetcher().then((data) => {
+		this.#fetcher().then((data) => {
 			const members = data.users;
 			const room = data.room;
 
 			for (const member of members) {
-				const tr = document.createElement('tr');
-				const username = document.createElement('td');
-				const admin = document.createElement('td');
-				const label = document.createElement('label');
-				const checkadmin = document.createElement('input');
+				const tr = this.#make('tr');
+				const username = this.#make('td');
+				const admin = this.#make('td');
+				const label = this.#make('label');
+				const checkadmin = this.#make('input');
 
 				label.setAttribute('for', member._id);
 				label.textContent = member.username;
@@ -70,11 +79,12 @@ class Creator {
 		});
 	}
 
+	//building the message and outputs it
 	createNewMessage(message) {
-		const author = document.createElement('span');
-		const time = document.createElement('span');
-		const messageContent = document.createElement('p');
-		const messageContainer = document.createElement('div');
+		const author = this.#make('span');
+		const time = this.#make('span');
+		const messageContent = this.#make('p');
+		const messageContainer = this.#make('div');
 
 		author.classList.add('p-5');
 		messageContent.classList.add(
