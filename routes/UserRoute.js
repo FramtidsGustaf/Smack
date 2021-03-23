@@ -77,7 +77,7 @@ router.post('/signin', (req, res, next) => {
 		successRedirect: '/dashboard',
 		failureRedirect: '/user/signin',
 		failureFlash: true,
-		failureFlash: 'Invalid usernameof password',
+		failureFlash: 'Invalid username or password',
 	})(req, res, next);
 });
 
