@@ -40,7 +40,7 @@ router.get('/roommembers/:_id', (req, res) => {
 
 router.post('/closingwindow', (req, res) => {
 	const { user } = req;
-
+	console.log('hejsan');
 	userUpdater(true, user._id, 'isOnline', false, res);
 });
 

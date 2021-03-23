@@ -3,9 +3,11 @@ const router = express.Router();
 const { ensureAuthenticated } = require('../config/auth');
 const UserModel = require('../models/user');
 const RoomModel = require('../models/room');
+const userUpdater = require('../utils/userUpdater');
 
 router.get('/', ensureAuthenticated, (req, res) => {
 	const { user } = req;
+	userUpdater(true, user._id, 'isOnline', true);
 	RoomModel.find({
 		$or: [{ isPrivate: false }, { users: { $all: [user._id] } }],
 	}).exec((error, rooms) => {
@@ -18,6 +20,7 @@ router.get('/', ensureAuthenticated, (req, res) => {
 
 router.get('/profile', ensureAuthenticated, (req, res) => {
 	const { user } = req;
+	userUpdater(true, user._id, 'isOnline', true);
 	res.render('profileSettings', { user });
 });
 

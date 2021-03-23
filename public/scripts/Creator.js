@@ -50,33 +50,35 @@ class Creator {
 	//creates the content of the settings modal that's only visible for the admins
 	createUsersAndAdmins() {
 		this.userAdminTable.innerHTML = '';
-		this.#fetcher().then((data) => {
+		this.fetcher().then((data) => {
 			const members = data.users;
 			const room = data.room;
 
 			for (const member of members) {
-				const tr = this.make('tr');
-				const username = this.make('td');
-				const admin = this.make('td');
-				const label = this.make('label');
-				const checkadmin = this.make('input');
-
-				label.setAttribute('for', member._id);
-				label.textContent = member.username;
-
-				checkadmin.type = 'checkbox';
-				checkadmin.value = member._id;
-
-				if (room.admins.includes(member._id)) {
-					checkadmin.checked = true;
-				}
-
-				username.append(label);
-				admin.append(checkadmin);
-				tr.append(username, admin);
-				this.userAdminTable.append(tr);
+				this.usersAndAdminsTemplate(member, room);
 			}
 		});
+	}
+
+	//creates the elements for current user
+	usersAndAdminsTemplate(member, room) {
+		const tr = this.make('tr');
+		const username = this.make('td');
+		const admin = this.make('td');
+		const label = this.make('label');
+		const checkadmin = this.make('input');
+
+		label.setAttribute('for', member._id);
+		label.textContent = member.username;
+
+		checkadmin.type = 'checkbox';
+		checkadmin.value = member._id;
+		checkadmin.checked = room.admins.includes(member._id);
+
+		username.append(label);
+		admin.append(checkadmin);
+		tr.append(username, admin);
+		this.userAdminTable.append(tr);
 	}
 
 	//building the message and outputs it

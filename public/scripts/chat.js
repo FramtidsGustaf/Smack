@@ -1,22 +1,26 @@
+const eById = (id) => {
+	return document.getElementById(id);
+};
+
+const scrollToBottom = (chatContainer) => {
+	chatContainer.scrollTop = chatContainer.scrollHeight;
+};
+
 document.addEventListener('DOMContentLoaded', (e) => {
-	const deleteButton = document.getElementById('delete-button');
-	const room = document.getElementById('room-id').value;
-	const username = document.getElementById('username').value;
-	const chatContainer = document.getElementById('chat-container');
-	const messageForm = document.getElementById('message-form');
-	const getRoomMembers = document.getElementById('get-room-members');
+	const deleteButton = eById('delete-button');
+	const room = eById('room-id').value;
+	const username = eById('username').value;
+	const chatContainer = eById('chat-container');
+	const messageForm = eById('message-form');
+	const getRoomMembers = eById('get-room-members');
 	const _id = getRoomMembers.value;
-	const userAdminTable = document.getElementById('user-admin-table');
-	const roomSettings = document.getElementById('room-settings');
-	const saveSettingsButton = document.getElementById('save-settings-button');
-	const roomNameInput = document.getElementById('room-name');
+	const userAdminTable = eById('user-admin-table');
+	const roomSettings = eById('room-settings');
+	const saveSettingsButton = eById('save-settings-button');
+	const roomNameInput = eById('room-name');
 	const creator = new Creator();
 
-	const scrollToBottom = () => {
-		chatContainer.scrollTop = chatContainer.scrollHeight;
-	};
-
-	scrollToBottom();
+	scrollToBottom(chatContainer);
 
 	saveSettingsButton &&
 		saveSettingsButton.addEventListener('click', () => {
@@ -72,7 +76,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
 	socket.on('message', (message) => {
 		creator.createNewMessage(message);
-		scrollToBottom();
+		scrollToBottom(chatContainer);
 	});
 
 	messageForm.addEventListener('submit', (e) => {
