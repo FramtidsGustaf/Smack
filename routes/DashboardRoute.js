@@ -22,7 +22,7 @@ router.get('/profile', ensureAuthenticated, (req, res) => {
 });
 
 router.post('/profile/update', ensureAuthenticated, async (req, res) => {
-	const { _id, password } = req.user;
+	const { _id, password, profilepic } = req.user;
 	const { first_name, last_name, username, email } = req.body;
 	const userChanges = await UserModel.findOne({ _id });
 	userChanges.overwrite({
@@ -31,6 +31,7 @@ router.post('/profile/update', ensureAuthenticated, async (req, res) => {
 		username,
 		email,
 		password,
+		profilepic,
 	});
 	await userChanges.save();
 	res.redirect('/dashboard');
