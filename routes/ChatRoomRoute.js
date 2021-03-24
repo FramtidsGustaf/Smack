@@ -3,6 +3,7 @@ const router = express.Router();
 const { ensureAuthenticated } = require('../config/auth');
 const RoomModel = require('../models/room');
 
+//sends all data for current room
 router.get('/:id', ensureAuthenticated, (req, res) => {
 	const { user } = req;
 	const id = req.params.id;
@@ -11,10 +12,11 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
 		.populate({ path: 'messages', populate: { path: 'author' } })
 		.exec((error, room) => {
 			if (error) {
-				console.log(error);
+				req.flash('error_msg', 'Oops! Something went wrong');
+				res.status(400).redirect('/dashboard');
 			}
 			const { messages } = room;
-			res.render('chatroom', {
+			res.status(200).render('chatroom', {
 				user,
 				messages,
 				room,
@@ -22,27 +24,34 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
 		});
 });
 
+//updates the settings of a room
 router.put('/', ensureAuthenticated, (req, res) => {
 	const { admins, _id, name } = req.body;
 
 	RoomModel.updateOne({ _id }, { admins, name }, (error) => {
 		if (error) {
-			console.log(error);
-			res.status(400).end();
+			throw error;
 		}
-		res.status(200).end();
+		res.status(204).end();
+	}).catch(() => {
+		res.status(400).end();
 	});
 });
 
+//deletes a room
 router.delete('/deleteroom/:room/', (req, res) => {
 	const roomId = req.params.room;
 
-	RoomModel.deleteOne({ _id: roomId }).exec((error) => {
-		if (error) {
-			console.log(error);
-		}
-		res.end();
-	});
+	RoomModel.deleteOne({ _id: roomId })
+		.exec((error) => {
+			if (error) {
+				throw error;
+			}
+			res.status(204).end();
+		})
+		.catch(() => {
+			res.status(400).end();
+		});
 });
 
 module.exports = router;

@@ -39,7 +39,15 @@ router.post('/signup', (req, res) => {
 
 	// check if errors else register user
 	UserModel.findOne({ email }).exec((error, userByMail) => {
+		if (error) {
+			req.flash('error_msg', 'Oops Something went wrong');
+			res.status(400).redirect('/');
+		}
 		UserModel.findOne({ username }).exec((error, userByUserName) => {
+			if (error) {
+				req.flash('error_msg', 'Oops Something went wrong');
+				res.status(400).redirect('/');
+			}
 			if (userByMail && userByUserName) {
 				errors.push({ msg: 'Email and Username already registerd' });
 				res.render('userform', { errors, first_name, last_name, username });
@@ -54,11 +62,12 @@ router.post('/signup', (req, res) => {
 				bcrypt.genSalt(10, (error, salt) => {
 					bcrypt.hash(newUser.password, salt, (error, hash) => {
 						if (error) {
-							throw error;
+							req.flash('error_msg', 'Oops Something went wrong');
+							res.status(400).redirect('/');
 						}
 						newUser.password = hash;
-						newUser.save().then((value) => {
-							req.flash('success_msg', 'You have now registered!');
+						newUser.save().then(() => {
+							req.flash('success_msg', 'You are now registered!');
 							res.redirect('/');
 						});
 					});

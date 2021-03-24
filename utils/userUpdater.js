@@ -14,15 +14,16 @@ const userUpdater = (is_id, idOrName, action, setTo, res) => {
 
 	UserModel.updateOne(query, whatToDo[action](setTo), (error) => {
 		if (error) {
-			console.log(error);
-			if (res) {
-				res.status(400);
-			}
+			throw error;
+		}
+		if (res) {
+			res.status(200).end();
+		}
+	}).catch(() => {
+		if (res) {
+			res.status(400).end();
 		}
 	});
-	if (res) {
-		res.status(200);
-	}
 };
 
 module.exports = userUpdater;

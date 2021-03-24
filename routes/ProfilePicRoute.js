@@ -38,8 +38,8 @@ const checkFileType = (file, callback) => {
 };
 
 router.get('/', ensureAuthenticated, (req, res) => {
-	const {_id} = req.user;
-	userUpdater(true, _id, 'isOnline', true);
+	const { _id } = req.user;
+	userUpdater(true, _id, 'isOnline', true, res);
 	res.render('profilepic');
 });
 

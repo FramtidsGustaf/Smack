@@ -23,10 +23,10 @@ router.post('/createroom', ensureAuthenticated, (req, res) => {
 
 	room.save((error) => {
 		if (error) {
-			return handleError(error);
+			res.status(400).end();
 		}
 	});
-	res.end();
+	res.status(204).end();
 });
 
 module.exports = router;
