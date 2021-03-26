@@ -26,9 +26,9 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
 
 //updates the settings of a room
 router.put('/', ensureAuthenticated, (req, res) => {
-	const { admins, _id, name } = req.body;
+	const { admins, _id, name, isPrivate } = req.body;
 
-	RoomModel.updateOne({ _id }, { admins, name }, (error) => {
+	RoomModel.updateOne({ _id }, { admins, name, isPrivate }, (error) => {
 		if (error) {
 			throw error;
 		}
@@ -42,16 +42,13 @@ router.put('/', ensureAuthenticated, (req, res) => {
 router.delete('/deleteroom/:room/', (req, res) => {
 	const roomId = req.params.room;
 
-	RoomModel.deleteOne({ _id: roomId })
-		.exec((error) => {
-			if (error) {
-				throw error;
-			}
-			res.status(204).end();
-		})
-		.catch(() => {
+	RoomModel.deleteOne({ _id: roomId }).exec((error) => {
+		if (error) {
+			req.flash('error_msg', 'Oops! Something went wrong');
 			res.status(400).end();
-		});
+		}
+		res.status(204).end();
+	});
 });
 
 module.exports = router;

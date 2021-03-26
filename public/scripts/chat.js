@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
 	const roomSettings = eById('room-settings');
 	const saveSettingsButton = eById('save-settings-button');
 	const roomNameInput = eById('room-name');
+	const privateCheckbox = eById('private-checkbox');
 	const creator = new Creator();
 
 	scrollToBottom(chatContainer);
@@ -27,6 +28,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
 			const members = userAdminTable.childNodes;
 			const admins = [];
 			const name = roomNameInput.value;
+			const isPrivate = privateCheckbox.checked;
 
 			for (const member of members) {
 				const check = member.childNodes[1].childNodes[0];
@@ -44,8 +46,9 @@ document.addEventListener('DOMContentLoaded', (e) => {
 					admins,
 					_id,
 					name,
+					isPrivate,
 				}),
-			}).then((res) => {
+			}).then(() => {
 				window.location.href = `/chatroom/${_id}`;
 			});
 		});
@@ -55,7 +58,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
 			if (confirm('Are You Sure?')) {
 				fetch(`/chatroom/deleteroom/${room}`, {
 					method: 'DELETE',
-				}).then((res) => {
+				}).then(() => {
 					window.location.href = '/dashboard';
 				});
 			}

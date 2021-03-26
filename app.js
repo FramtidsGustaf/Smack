@@ -4,36 +4,42 @@ require('dotenv').config();
 const expressEjsLayout = require('express-ejs-layouts');
 const path = require('path');
 
+//utils
 const userUpdater = require('./utils/userUpdater');
 const { userJoin, getCurrentUser, userLeave } = require('./utils/users');
 
+//moment format date
 const moment = require('moment');
 
+//setting up server and socket
+const app = express();
+const port = process.env.port || 3000;
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+
+//flash
+const flash = require('connect-flash');
+
+//session
+const session = require('express-session');
+app.use(
+	session({
+		secret: 'secret',
+		resave: true,
+		saveUninitialized: true,
+	})
+);
+
+//passport
+const passport = require('passport');
+require('./config/passport')(passport);
+app.use(passport.initialize());
+app.use(passport.session());
+
+//mongoose and models
 const MessageModel = require('./models/message');
 const UserModel = require('./models/user');
 const RoomModel = require('./models/room');
-
-const session = require('express-session');
-const flash = require('connect-flash');
-const passport = require('passport');
-require('./config/passport')(passport);
-
-const app = express();
-const port = process.env.port || 3000;
-
-const server = require('http').createServer(app);
-
-const io = require('socket.io')(server);
-
-const userRoute = require('./routes/UserRoute');
-const roomRoute = require('./routes/RoomRoute');
-const dashboardRoute = require('./routes/DashboardRoute');
-const chatRoomRoute = require('./routes/ChatRoomRoute');
-const index = require('./routes/index');
-const api = require('./routes/api');
-const profilePicRoute = require('./routes/ProfilePicRoute');
-const profileRoute = require('./routes/ProfileRoute');
-
 mongoose
 	.connect(process.env.DB_URI, {
 		useNewUrlParser: true,
@@ -43,26 +49,16 @@ mongoose
 	.then(() => console.log('MongoDB connected...'))
 	.catch((error) => console.log(error));
 
+//ejs
 app.set('view engine', 'ejs');
 app.use(expressEjsLayout);
 
+//basic settings for app
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.json());
 
-app.use(
-	session({
-		secret: 'secret',
-		resave: true,
-		saveUninitialized: true,
-	})
-);
-
-app.use(passport.initialize());
-app.use(passport.session());
-
+//flash
 app.use(flash());
 app.use((req, res, next) => {
 	res.locals.success_msg = req.flash('success_msg');
@@ -72,14 +68,14 @@ app.use((req, res, next) => {
 });
 
 //the routes
-app.use('/dashboard', dashboardRoute);
-app.use('/user', userRoute);
-app.use('/room', roomRoute);
-app.use('/', index);
-app.use('/chatroom', chatRoomRoute);
-app.use('/api', api);
-app.use('/profilepic', profilePicRoute);
-app.use('/profile', profileRoute);
+app.use('/dashboard', require('./routes/DashboardRoute'));
+app.use('/user', require('./routes/UserRoute'));
+app.use('/room', require('./routes/RoomRoute'));
+app.use('/', require('./routes/index'));
+app.use('/chatroom', require('./routes/ChatRoomRoute'));
+app.use('/api', require('./routes/api'));
+app.use('/profilepic', require('./routes/ProfilePicRoute'));
+app.use('/profile', require('./routes/ProfileRoute'));
 
 // the web socket part
 io.on('connection', (socket) => {
@@ -110,7 +106,7 @@ io.on('connection', (socket) => {
 				}
 				msg.author = currentUser._id;
 				const newMessage = new MessageModel(msg);
-				
+
 				RoomModel.updateOne(
 					{ _id: user.room },
 					{ $push: { messages: newMessage._id } },

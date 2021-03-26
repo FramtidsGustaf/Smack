@@ -9,7 +9,7 @@ router.get('/allbutme', (req, res) => {
 	const { user } = req;
 	UserModel.find({ _id: { $nin: user._id } }).exec((error, users) => {
 		if (error) {
-			res, status(400).end();
+			res.status(400).end();
 		}
 		if (users) {
 			res.status(200).json(users);
@@ -33,6 +33,9 @@ router.get('/roommembers/:_id', (req, res) => {
 					res.status(200).json({ users: room.users, room });
 				} else {
 					UserModel.find().exec((error, users) => {
+						if(error) {
+							res.status(400).end();
+						}
 						if (users) {
 							res.status(200).json({ users, room });
 						} else {
@@ -46,11 +49,13 @@ router.get('/roommembers/:_id', (req, res) => {
 		});
 });
 
+//sets current user to offine in db
 router.post('/closingwindow', (req, res) => {
 	const { user } = req;
 	userUpdater(true, user._id, 'isOnline', false, res);
 });
 
+//sets current user to online in db
 router.post('/settoonline', (req, res) => {
 	const { user } = req;
 	userUpdater(true, user._id, 'isOnline', true, res);
