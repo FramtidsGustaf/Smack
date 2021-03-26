@@ -5,6 +5,7 @@ const UserModel = require('../models/user');
 const RoomModel = require('../models/room');
 const userUpdater = require('../utils/userUpdater');
 
+// Renders the dashboard with all rooms user is asigned to
 router.get('/', ensureAuthenticated, (req, res) => {
 	const { user } = req;
 	userUpdater(true, user._id, 'isOnline', true);
@@ -26,12 +27,14 @@ router.get('/', ensureAuthenticated, (req, res) => {
 	});
 });
 
+// Renders the users profile
 router.get('/profile', ensureAuthenticated, (req, res) => {
 	const { user } = req;
 	userUpdater(true, user._id, 'isOnline', true, res);
 	res.render('profileSettings', { user });
 });
 
+// Route for updating the user
 router.post('/profile/update', ensureAuthenticated, (req, res) => {
 	const { _id } = req.user;
 	const { first_name, last_name, username, email } = req.body;

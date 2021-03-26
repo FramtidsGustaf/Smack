@@ -57,6 +57,7 @@ router.post('/signup', (req, res) => {
 				res.render('userform', { errors, first_name, last_name, username });
 			} else {
 				const newUser = new UserModel(req.body);
+				// encrypting password with passport
 				bcrypt.genSalt(10, (error, salt) => {
 					bcrypt.hash(newUser.password, salt, (error, hash) => {
 						if (error) {
@@ -73,12 +74,13 @@ router.post('/signup', (req, res) => {
 			}
 		});
 	});
-
+	// if there are any errors render them 
 	if (errors.length > 0) {
 		res.render('userform', { errors, first_name, last_name, username, email });
 	}
 });
 
+// Passport signin function
 router.post('/signin', (req, res, next) => {
 	passport.authenticate('local', {
 		successRedirect: '/dashboard',

@@ -4,12 +4,14 @@ const RoomModel = require('../models/room');
 const { ensureAuthenticated } = require('../config/auth');
 const userUpdater = require('../utils/userUpdater');
 
+// render roomform to create new rooms
 router.get('/roomform', ensureAuthenticated, (req, res) => {
 	const userid = req.user._id;
 	userUpdater(true, userid, 'isOnline', true);
 	res.render('roomform', { userid });
 });
 
+// creates a new room and saves it to mongodb
 router.post('/createroom', ensureAuthenticated, (req, res) => {
 	const { _id } = req.user;
 	const { name, isPrivate, includedUsers } = req.body;
