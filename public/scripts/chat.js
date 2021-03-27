@@ -1,7 +1,10 @@
+
+//how lazy of us
 const eById = (id) => {
 	return document.getElementById(id);
 };
 
+//scrolls the chatcontainer to the bottom
 const scrollToBottom = (chatContainer) => {
 	chatContainer.scrollTop = chatContainer.scrollHeight;
 };
@@ -23,6 +26,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
 	scrollToBottom(chatContainer);
 
+	//saves new settings to room
 	saveSettingsButton &&
 		saveSettingsButton.addEventListener('click', () => {
 			const members = userAdminTable.childNodes;
@@ -52,7 +56,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
 				window.location.href = `/chatroom/${_id}`;
 			});
 		});
-
+	//deletes room
 	deleteButton &&
 		deleteButton.addEventListener('click', () => {
 			if (confirm('Are You Sure?')) {
@@ -64,15 +68,19 @@ document.addEventListener('DOMContentLoaded', (e) => {
 			}
 		});
 
+	//gets all data for the settingsmodal
 	roomSettings &&
 		roomSettings.addEventListener('click', () => {
 			creator.createUsersAndAdmins();
 		});
 
+	//gets all data for the roomusersmodal
 	getRoomMembers.addEventListener('click', () => {
 		creator.createUsersWithStatus();
 	});
 
+
+	//sockets
 	const socket = io();
 
 	socket.emit('joinRoom', { username, room });

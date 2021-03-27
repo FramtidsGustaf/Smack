@@ -5,6 +5,8 @@ const path = require('path');
 const { ensureAuthenticated } = require('../config/auth');
 const userUpdater = require('../utils/userUpdater');
 
+// sets destination to where images will be stored
+// and gives uploaded file a name
 const storage = multer.diskStorage({
 	destination: './public/uploads/',
 	filename: (req, file, callback) => {
@@ -15,6 +17,7 @@ const storage = multer.diskStorage({
 	},
 });
 
+//config object
 const upload = multer({
 	storage,
 	limits: {
@@ -25,6 +28,7 @@ const upload = multer({
 	},
 }).single('profilePic');
 
+// validates the filetype
 const checkFileType = (file, callback) => {
 	const fileTypes = /jpeg|jpg|png|gif/;
 	const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
@@ -37,12 +41,15 @@ const checkFileType = (file, callback) => {
 	}
 };
 
+//the routes
+
 router.get('/', ensureAuthenticated, (req, res) => {
 	const { _id } = req.user;
 	userUpdater(true, _id, 'isOnline', true, res);
 	res.render('profilepic');
 });
 
+//uploading a new image
 router.post('/update', ensureAuthenticated, (req, res) => {
 	const { _id } = req.user;
 	upload(req, res, (error) => {
