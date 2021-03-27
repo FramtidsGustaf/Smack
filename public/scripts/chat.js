@@ -1,4 +1,3 @@
-
 //how lazy of us
 const eById = (id) => {
 	return document.getElementById(id);
@@ -79,17 +78,19 @@ document.addEventListener('DOMContentLoaded', (e) => {
 		creator.createUsersWithStatus();
 	});
 
-
-	//sockets
+	//socket stars here
 	const socket = io();
 
+	//when user joins room
 	socket.emit('joinRoom', { username, room });
 
+	// when message is sent from backend
 	socket.on('message', (message) => {
 		creator.createNewMessage(message);
 		scrollToBottom(chatContainer);
 	});
 
+	//when user sends message
 	messageForm.addEventListener('submit', (e) => {
 		e.preventDefault();
 
@@ -102,6 +103,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
 		message.focus();
 	});
 
+	//when a new user enters room
 	socket.on('roomUsers', () => {
 		creator.createUsersWithStatus();
 	});
