@@ -36,7 +36,7 @@ require('./config/passport')(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
-//mongoose and models
+//mongoose, models and connect to db 
 const MessageModel = require('./models/message');
 const UserModel = require('./models/user');
 const RoomModel = require('./models/room');
